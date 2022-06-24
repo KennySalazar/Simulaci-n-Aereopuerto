@@ -5,6 +5,8 @@
 package backend;
 
 import backend.instalaciones.EstacionControl;
+import enums.TipoAvion;
+import java.util.Random;
 import ui.cuadro.avion.AvionCuadro;
 
 /**
@@ -17,4 +19,24 @@ public class Avion {
     private int combustible;
     private EstacionControl estacionControl;
     private AvionCuadro cuadro;
+    private int cantidadPasejeros;
+    Random rd = new Random();
+
+    public Avion(int ID, String tipo, int combustible) {
+        this.ID = ID;
+        this.tipo = tipo;
+        this.combustible = combustible;
+        if(tipo.equalsIgnoreCase("pequeño")){
+            cantidadPasejeros = rd.nextInt(5) + 5;
+        } else if(tipo.equalsIgnoreCase("mediano")){
+            cantidadPasejeros = rd.nextInt(10) + 15;
+        } else if(tipo.equalsIgnoreCase("grande")){
+            cantidadPasejeros = rd.nextInt(10) + 30;
+        }else{
+            cantidadPasejeros = rd.nextInt(5) + 5;
+        }
+            
+    }
+    
+    
 }

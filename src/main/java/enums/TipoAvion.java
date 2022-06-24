@@ -2,18 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package backend.instalaciones;
-
-import ui.cuadro.instalacion.InstalacionCuadro;
+package enums;
 
 /**
  *
  * @author Kenny
  */
-public class PistaAterrizaje extends InstalacionConEspera{
+public enum TipoAvion {
     
-    public PistaAterrizaje(int ID, int cantidad) {
-        super(ID, cantidad);
-    }
+    pequeño,
+    mediano,
+    grande
     
 }

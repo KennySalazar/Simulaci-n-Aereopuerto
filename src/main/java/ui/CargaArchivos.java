@@ -4,16 +4,39 @@
  */
 package ui;
 
+import backend.Avion;
+import backend.estructuras.lista.Lista;
+import backend.estructuras.lista.ListaException;
+import backend.instalaciones.EstacionControl;
+import backend.instalaciones.EstacionDesabordaje;
+import backend.instalaciones.EstacionMantenimieto;
+import backend.instalaciones.PistaAterrizaje;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Kenny
  */
 public class CargaArchivos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CargaArchivos
-     */
+    private Lista<Avion> aviones;
+    private Lista<EstacionControl> estacionesControl;
+    private Lista<PistaAterrizaje> pistasAterrizaje;
+    private Lista<EstacionDesabordaje> estacionesDesabordaje;
+    private Lista<EstacionMantenimieto> estacionesMantenimiento;
+
     public CargaArchivos() {
+        aviones = new Lista<>();
+        estacionesControl = new Lista<>();
+        pistasAterrizaje = new Lista<>();
+        estacionesDesabordaje = new Lista<>();
+        estacionesMantenimiento = new Lista<>();
         initComponents();
     }
 
@@ -26,27 +49,209 @@ public class CargaArchivos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jButtonAvion = new javax.swing.JButton();
+        jButtonEstacionControl = new javax.swing.JButton();
+        jButtonMantenimiento = new javax.swing.JButton();
+        jButtonAterrizaje = new javax.swing.JButton();
+        jButtonDesabordaje = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 2, 14)); // NOI18N
+        jLabel1.setText("Carga de Archivos");
+        jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        jButtonAvion.setText("Cargar Datos");
+        jButtonAvion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAvionActionPerformed(evt);
+            }
+        });
+
+        jButtonEstacionControl.setText("Cargar Datos");
+        jButtonEstacionControl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEstacionControlActionPerformed(evt);
+            }
+        });
+
+        jButtonMantenimiento.setText("Cargar Datos");
+        jButtonMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMantenimientoActionPerformed(evt);
+            }
+        });
+
+        jButtonAterrizaje.setText("Cargar Datos");
+        jButtonAterrizaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAterrizajeActionPerformed(evt);
+            }
+        });
+
+        jButtonDesabordaje.setText("Cargar Datos");
+        jButtonDesabordaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDesabordajeActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Estación de Control");
+
+        jLabel3.setText("Aviones");
+
+        jLabel4.setText("Pista de Atarrezaje");
+
+        jLabel5.setText("Estación de Desabordaje");
+
+        jLabel6.setText("Estación de Mantenimiento");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButtonEstacionControl)
+                                .addComponent(jButtonAvion)
+                                .addComponent(jButtonAterrizaje))
+                            .addComponent(jButtonDesabordaje)
+                            .addComponent(jButtonMantenimiento)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addComponent(jLabel1)))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jButtonAvion))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEstacionControl)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButtonAterrizaje))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDesabordaje)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jButtonMantenimiento))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButtonAvionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAvionActionPerformed
+       
+        Lista<String> lineas = leerArchivo();
+        
+        for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+            try {
+                String [] separador = lineas.obtenerContenido(i).split(",");
+                Avion avion = new Avion(Integer.parseInt(separador[0]),separador[1], Integer.parseInt(separador[2]));
+                aviones.agregar(avion);
+                
+            } catch (ListaException ex) {
+               
+            }
+        }
+        System.out.println("--------");
+    }//GEN-LAST:event_jButtonAvionActionPerformed
 
+    private void jButtonEstacionControlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEstacionControlActionPerformed
+        leerArchivo();
+    }//GEN-LAST:event_jButtonEstacionControlActionPerformed
+
+    private void jButtonAterrizajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAterrizajeActionPerformed
+        leerArchivo();
+    }//GEN-LAST:event_jButtonAterrizajeActionPerformed
+
+    private void jButtonDesabordajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDesabordajeActionPerformed
+        leerArchivo();
+    }//GEN-LAST:event_jButtonDesabordajeActionPerformed
+
+    private void jButtonMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMantenimientoActionPerformed
+        leerArchivo();
+    }//GEN-LAST:event_jButtonMantenimientoActionPerformed
+
+    public Lista<String> cargarDatos(String path) {
+        Lista<String> lineas = new Lista<>();
+        try {
+            FileReader fileR = new FileReader(path);
+            BufferedReader bufferedR = new BufferedReader(fileR);
+            String lineaTxt = bufferedR.readLine();
+            while (lineaTxt != null) {
+                lineas.agregar(lineaTxt);
+                lineaTxt = bufferedR.readLine();
+
+            }
+
+        } catch (Exception e) {
+        }
+        return lineas;
+    }
+
+    public Lista<String>leerArchivo() {
+        Lista<String> lineas = new Lista<>();
+        JFileChooser fileCh = new JFileChooser();
+        int respuesta = fileCh.showOpenDialog(this);
+        if (respuesta == 0) {
+            lineas = cargarDatos(fileCh.getSelectedFile().getAbsolutePath());
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo cargar correctamente el archivo");
+        }
+        return lineas;
+    }
+    
+    public void crearListas(Lista elementos){
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAterrizaje;
+    private javax.swing.JButton jButtonAvion;
+    private javax.swing.JButton jButtonDesabordaje;
+    private javax.swing.JButton jButtonEstacionControl;
+    private javax.swing.JButton jButtonMantenimiento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }

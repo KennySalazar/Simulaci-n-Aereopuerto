@@ -12,8 +12,8 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  */
 public class EstacionMantenimieto extends InstalacionConEspera {
     
-    public EstacionMantenimieto(int ID, int cantidad, InstalacionCuadro cuadro) {
-        super(ID, cantidad, cuadro);
+    public EstacionMantenimieto(int ID, int cantidad) {
+        super(ID, cantidad);
     }
     
 }

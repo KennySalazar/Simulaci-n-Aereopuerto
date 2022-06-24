@@ -16,10 +16,10 @@ public class Instalacion {
     protected int cantidad;
     protected InstalacionCuadro cuadro;
 
-    public Instalacion(int ID, int cantidad, InstalacionCuadro cuadro) {
+    public Instalacion(int ID, int cantidad) {
         this.ID = ID;
         this.cantidad = cantidad;
-        this.cuadro = cuadro;
+        
     }
     
     

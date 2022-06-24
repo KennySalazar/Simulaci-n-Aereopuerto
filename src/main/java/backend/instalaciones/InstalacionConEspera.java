@@ -15,8 +15,8 @@ import ui.cuadro.instalacion.InstalacionCuadro;
 public class InstalacionConEspera extends Instalacion {
    protected Cola<Avion> avionesEnEspera;
    
-    public InstalacionConEspera(int ID, int cantidad, InstalacionCuadro cuadro) {
-        super(ID, cantidad, cuadro);
+    public InstalacionConEspera(int ID, int cantidad) {
+        super(ID, cantidad);
         avionesEnEspera = new Cola<Avion>();
     }
     

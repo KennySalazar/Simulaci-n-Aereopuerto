@@ -10,10 +10,10 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  *
  * @author Kenny
  */
-public class InstalacionDesbordaje extends InstalacionConEspera{
+public class EstacionDesabordaje extends InstalacionConEspera{
     
-    public InstalacionDesbordaje(int ID, int cantidad, InstalacionCuadro cuadro) {
-        super(ID, cantidad, cuadro);
+    public EstacionDesabordaje(int ID, int cantidad) {
+        super(ID, cantidad);
     }
     
 }
