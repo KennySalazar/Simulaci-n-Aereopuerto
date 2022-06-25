@@ -11,11 +11,14 @@ import backend.estructuras.lista.Lista;
  *
  * @author Kenny
  */
-public class EstacionControl {
+public class EstacionControl extends Instalacion {
     private Lista<Avion>avionesContactados;
 
-    public EstacionControl() {
+    public EstacionControl(int ID, int cantidad) {
+        super(ID, cantidad);
         avionesContactados = new Lista<Avion>();
     }
+
+
 
 }

@@ -191,7 +191,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void IniciarSimulacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IniciarSimulacionMouseClicked
 
-        CargaArchivos cargarArhivo = new CargaArchivos();
+        CargarArchivos cargarArhivo = new CargarArchivos();
         cargarArhivo.setVisible(true);
         cargarArhivo.setLocationRelativeTo(this);
         setEnabled(false);

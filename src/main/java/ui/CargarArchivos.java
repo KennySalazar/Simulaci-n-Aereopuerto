@@ -10,6 +10,7 @@ import backend.estructuras.lista.ListaException;
 import backend.instalaciones.EstacionControl;
 import backend.instalaciones.EstacionDesabordaje;
 import backend.instalaciones.EstacionMantenimieto;
+import backend.instalaciones.Instalacion;
 import backend.instalaciones.PistaAterrizaje;
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author Kenny
  */
-public class CargaArchivos extends javax.swing.JFrame {
+public class CargarArchivos extends javax.swing.JFrame {
 
     private Lista<Avion> aviones;
     private Lista<EstacionControl> estacionesControl;
@@ -31,12 +32,13 @@ public class CargaArchivos extends javax.swing.JFrame {
     private Lista<EstacionDesabordaje> estacionesDesabordaje;
     private Lista<EstacionMantenimieto> estacionesMantenimiento;
 
-    public CargaArchivos() {
+    public CargarArchivos() {
         aviones = new Lista<>();
         estacionesControl = new Lista<>();
         pistasAterrizaje = new Lista<>();
         estacionesDesabordaje = new Lista<>();
         estacionesMantenimiento = new Lista<>();
+       
         initComponents();
     }
 
@@ -176,36 +178,36 @@ public class CargaArchivos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAvionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAvionActionPerformed
-       
+
         Lista<String> lineas = leerArchivo();
-        
+
         for (int i = 0; i < lineas.obtenerLongitud(); i++) {
             try {
-                String [] separador = lineas.obtenerContenido(i).split(",");
-                Avion avion = new Avion(Integer.parseInt(separador[0]),separador[1], Integer.parseInt(separador[2]));
+                String[] separador = lineas.obtenerContenido(i).split(",");
+                Avion avion = new Avion(Integer.parseInt(separador[0]), separador[1], Integer.parseInt(separador[2]));
                 aviones.agregar(avion);
-                
+
             } catch (ListaException ex) {
-               
+
             }
         }
         System.out.println("--------");
     }//GEN-LAST:event_jButtonAvionActionPerformed
 
     private void jButtonEstacionControlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEstacionControlActionPerformed
-        leerArchivo();
+        crearListas(estacionesControl);
     }//GEN-LAST:event_jButtonEstacionControlActionPerformed
 
     private void jButtonAterrizajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAterrizajeActionPerformed
-        leerArchivo();
+        crearListas(pistasAterrizaje);
     }//GEN-LAST:event_jButtonAterrizajeActionPerformed
 
     private void jButtonDesabordajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDesabordajeActionPerformed
-        leerArchivo();
+        crearListas(estacionesDesabordaje);
     }//GEN-LAST:event_jButtonDesabordajeActionPerformed
 
     private void jButtonMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMantenimientoActionPerformed
-        leerArchivo();
+        crearListas(estacionesMantenimiento);
     }//GEN-LAST:event_jButtonMantenimientoActionPerformed
 
     public Lista<String> cargarDatos(String path) {
@@ -219,13 +221,13 @@ public class CargaArchivos extends javax.swing.JFrame {
                 lineaTxt = bufferedR.readLine();
 
             }
-
+            
         } catch (Exception e) {
         }
         return lineas;
     }
 
-    public Lista<String>leerArchivo() {
+    public Lista<String> leerArchivo() {
         Lista<String> lineas = new Lista<>();
         JFileChooser fileCh = new JFileChooser();
         int respuesta = fileCh.showOpenDialog(this);
@@ -236,10 +238,23 @@ public class CargaArchivos extends javax.swing.JFrame {
         }
         return lineas;
     }
-    
-    public void crearListas(Lista elementos){
-        
+
+    public void crearListas(Lista Listaelemento) {
+        Lista<String> lineas = leerArchivo();
+        for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+            try {
+                String[] separador = lineas.obtenerContenido(i).split(",");
+                Instalacion cantidadElementos = new Instalacion(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
+               
+                Listaelemento.agregar(cantidadElementos);
+
+            } catch (ListaException ex) {
+
+            }
+        }
+        System.out.println("--------");
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAterrizaje;
