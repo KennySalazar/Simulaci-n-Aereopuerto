@@ -10,7 +10,7 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  *
  * @author Kenny
  */
-public class Instalacion {
+public abstract class Instalacion extends Thread {
     
     protected int ID;
     protected int cantidad;

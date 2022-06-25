@@ -4,17 +4,25 @@
  */
 package ui;
 
+import backend.Avion;
+import backend.instalaciones.EstacionControl;
+import backend.instalaciones.EstacionDesabordaje;
+import backend.instalaciones.EstacionMantenimiento;
+import backend.instalaciones.PistaAterrizaje;
+import ui.cuadro.avion.AvionDespegueCuadro;
+
 /**
  *
  * @author Kenny
  */
 public class Configuracion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Configuracion
-     */
-    public Configuracion() {
+   private Principal principal;
+   
+    public Configuracion(Principal principal) {
         initComponents();
+        this.principal = principal;
+        
     }
 
     /**
@@ -37,12 +45,12 @@ public class Configuracion extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        casillas = new javax.swing.JSpinner();
-        casillas1 = new javax.swing.JSpinner();
-        casillas2 = new javax.swing.JSpinner();
-        casillas3 = new javax.swing.JSpinner();
-        casillas4 = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
+        gastoCombustible = new javax.swing.JSpinner();
+        tiempoAterrizaje = new javax.swing.JSpinner();
+        tiempoDesabordaje = new javax.swing.JSpinner();
+        tiempoMantenimiento = new javax.swing.JSpinner();
+        tiempoDespegue = new javax.swing.JSpinner();
+        jButtonAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,36 +74,41 @@ public class Configuracion extends javax.swing.JFrame {
         jLabel6.setText("Tiempo de despegue");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel7.setText("segundos");
+        jLabel7.setText("milisegundos");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel8.setText("segundos");
+        jLabel8.setText("milisegundos");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel9.setText("segundos");
+        jLabel9.setText("milisegundos");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel10.setText("segundos");
+        jLabel10.setText("milisegundos");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jLabel11.setText("segundos");
+        jLabel11.setText("milisegundos");
 
-        casillas.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        casillas.setToolTipText("");
+        gastoCombustible.setModel(new javax.swing.SpinnerNumberModel(1000, 1, null, 1000));
+        gastoCombustible.setToolTipText("");
 
-        casillas1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        casillas1.setToolTipText("");
+        tiempoAterrizaje.setModel(new javax.swing.SpinnerNumberModel(4000, 1, null, 1000));
+        tiempoAterrizaje.setToolTipText("");
 
-        casillas2.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        casillas2.setToolTipText("");
+        tiempoDesabordaje.setModel(new javax.swing.SpinnerNumberModel(200, 1, null, 1000));
+        tiempoDesabordaje.setToolTipText("");
 
-        casillas3.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        casillas3.setToolTipText("");
+        tiempoMantenimiento.setModel(new javax.swing.SpinnerNumberModel(10000, 1, null, 1000));
+        tiempoMantenimiento.setToolTipText("");
 
-        casillas4.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        casillas4.setToolTipText("");
+        tiempoDespegue.setModel(new javax.swing.SpinnerNumberModel(3000, 1, null, 1000));
+        tiempoDespegue.setToolTipText("");
 
-        jButton1.setText("Aceptar");
+        jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,38 +123,40 @@ public class Configuracion extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(casillas, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tiempoDespegue, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(casillas2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel10))
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonAceptar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(casillas3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tiempoMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel9))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(casillas1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gastoCombustible, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8))
+                                .addComponent(jLabel7))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tiempoAterrizaje, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tiempoDesabordaje, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(casillas4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                                .addComponent(jButton1)))))
-                .addGap(30, 30, 30))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,51 +167,59 @@ public class Configuracion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(casillas, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(gastoCombustible, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(casillas1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tiempoAterrizaje, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(casillas2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tiempoDesabordaje, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(casillas3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tiempoMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(casillas4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tiempoDespegue, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(32, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonAceptar)
                         .addContainerGap())))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+        asignarTiempos();
+        dispose();
+        principal.mostrarAereopuerto();
+        principal.setEnabled(true);
+        
+        
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
+    public void asignarTiempos(){
+        Avion.setTiempoGastoCombustible((int) gastoCombustible.getValue());
+        Avion.setTiempoDespegue((int)tiempoDespegue.getValue());
+        PistaAterrizaje.setTiempoAterrizaje((int)tiempoAterrizaje.getValue());
+        EstacionDesabordaje.setTiempoDesabordar((int) tiempoDesabordaje.getValue());
+        EstacionMantenimiento.setTiempoMantenimiento((int)tiempoMantenimiento.getValue());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSpinner casillas;
-    private javax.swing.JSpinner casillas1;
-    private javax.swing.JSpinner casillas2;
-    private javax.swing.JSpinner casillas3;
-    private javax.swing.JSpinner casillas4;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JSpinner gastoCombustible;
+    private javax.swing.JButton jButtonAceptar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -208,5 +231,9 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JSpinner tiempoAterrizaje;
+    private javax.swing.JSpinner tiempoDesabordaje;
+    private javax.swing.JSpinner tiempoDespegue;
+    private javax.swing.JSpinner tiempoMantenimiento;
     // End of variables declaration//GEN-END:variables
 }

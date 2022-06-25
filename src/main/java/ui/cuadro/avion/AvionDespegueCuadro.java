@@ -7,8 +7,10 @@ import backend.Avion;
  *
  * @author Kenny
  */
-public class AvionDespegueCuadro extends AvionCuadro implements Posicionable {
+public class AvionDespegueCuadro extends AvionCuadro implements Posicionable, Runnable {
+
     
+
     public AvionDespegueCuadro(Avion avion) {
         super(avion);
     }
@@ -22,5 +24,12 @@ public class AvionDespegueCuadro extends AvionCuadro implements Posicionable {
     public void actualizarElementos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+   
+
 }

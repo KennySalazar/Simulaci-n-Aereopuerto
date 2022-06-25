@@ -5,15 +5,30 @@
 package backend;
 
 import backend.estructuras.lista.Lista;
-import backend.instalaciones.Instalacion;
+import backend.instalaciones.*;
 
 /**
  *
  * @author Kenny
  */
 public class MotorSimulacion {
-    
-    private Lista <Instalacion> instalaciones;
+
+    private Lista<Avion> aviones;
+    private Lista<EstacionControl> estacionesControl;
+    private Lista<PistaAterrizaje> pistasAterrizaje;
+    private Lista<EstacionDesabordaje> estacionesDesabordaje;
+    private Lista<EstacionMantenimiento> estacionesMantenimiento;
     private Lista <Log> logs;
+
+    public MotorSimulacion(Lista<Avion> aviones, Lista<EstacionControl> estacionesControl, Lista<PistaAterrizaje> pistasAterrizaje, Lista<EstacionDesabordaje> estacionesDesabordaje, Lista<EstacionMantenimiento> estacionesMantenimiento) {
+        this.aviones = aviones;
+        this.estacionesControl = estacionesControl;
+        this.pistasAterrizaje = pistasAterrizaje;
+        this.estacionesDesabordaje = estacionesDesabordaje;
+        this.estacionesMantenimiento = estacionesMantenimiento;
+    }
     
+    public void iniciarSimulacion(){
+        
+    }
 }

@@ -36,24 +36,6 @@ public class Lista<T> implements Serializable {
         return longitud;
     }
 
-    public boolean incluye(T contenido) {
-        if (!esVacia()) {
-            Nodo<T> actual = inicio;
-            for (int i = 0; i < longitud; i++) {
-                if (actual.getContenido().equals(contenido))
-                    return true;
-                Nodo<T> siguiente = actual.getSiguiente();
-                actual = siguiente;
-            }
-        }
-        return false;
-    }
-
-    public void eliminarContenido(T contenido) throws ListaException {
-        int indice = obtenerIndice(contenido);
-        eliminarElementoEnIndice(indice);
-    }
-
     public int obtenerIndice(T contenido) {
         int indice = 0;
         Nodo<T> actual = inicio;
@@ -67,7 +49,7 @@ public class Lista<T> implements Serializable {
         return -1;
     }
 
-    public void eliminarElementoEnIndice(int indice) throws ListaException {
+    public void eliminarPorIndice(int indice) throws ListaException {
         if (indice >= longitud || indice < 0) {
             throw new ListaException("Indice fuera de rango");
         }
@@ -78,7 +60,7 @@ public class Lista<T> implements Serializable {
         } else if (indice == longitud - 1) {
             eliminarUltimo();
         } else {
-            Nodo<T> anterior = buscarIndice(indice - 1);
+            Nodo<T> anterior = encontrarPorIndice(indice - 1);
             Nodo<T> siguiente = anterior.getSiguiente().getSiguiente();
             anterior.setSiguiente(siguiente);
         longitud--;
@@ -93,27 +75,18 @@ public class Lista<T> implements Serializable {
             inicio = null;
             ultimo = null;
         } else {
-            Nodo<T> nuevoUltimo = buscarIndice(longitud - 2);
+            Nodo<T> nuevoUltimo = encontrarPorIndice(longitud - 2);
             nuevoUltimo.setSiguiente(null);
             ultimo = nuevoUltimo;
         }
         longitud--;
     }
 
-    public void cambiarContenido(int indice,T contenido) throws ListaException {
-        buscarIndice(indice).setContenido(contenido);
+    public T obtenerElemento(int indice) throws ListaException {
+        return encontrarPorIndice(indice).getContenido();
     }
 
-    public void cambiarContenido(T contenidoARemplazar,T contenido) throws ListaException {
-       int indice = obtenerIndice(contenidoARemplazar);
-       cambiarContenido(indice, contenido);
-    }
-
-    public T obtenerContenido(int indice) throws ListaException {
-        return buscarIndice(indice).getContenido();
-    }
-
-    public Nodo<T> buscarIndice(int indice) throws ListaException {
+    public Nodo<T> encontrarPorIndice(int indice) throws ListaException {
         if (indice >= longitud || indice < 0) {
             throw new ListaException("Indice fuera de rango");
         }

@@ -5,6 +5,7 @@
 package ui.cuadro.instalacion;
 
 import Interfaces.Posicionable;
+import backend.Avion;
 
 /**
  *
@@ -12,6 +13,9 @@ import Interfaces.Posicionable;
  */
 public class EstacionDesbordajeCuadro extends InstalacionCuadro implements Posicionable{
 
+    
+    
+    
     @Override
     public void posicionarElementos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

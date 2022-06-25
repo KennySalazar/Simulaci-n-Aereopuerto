@@ -13,15 +13,19 @@ import ui.cuadro.avion.AvionCuadro;
  *
  * @author Kenny
  */
-public class Avion {
+public class Avion extends Thread{
     private int ID;
     private String tipo;
     private int combustible;
+    private int combustibleActual;
     private EstacionControl estacionControl;
     private AvionCuadro cuadro;
     private int cantidadPasejeros;
     Random rd = new Random();
 
+    private static int tiempoDespegue;
+    private static int tiempoGastoCombustible;
+    
     public Avion(int ID, String tipo, int combustible) {
         this.ID = ID;
         this.tipo = tipo;
@@ -37,6 +41,22 @@ public class Avion {
         }
             
     }
+
+    public static void setTiempoGastoCombustible(int nuevoTiempoGastoCombustible) {
+        tiempoGastoCombustible = nuevoTiempoGastoCombustible;
+    }
+
+    @Override
+    public void run() {
+        //LOGICA DE COMO VAYA PERDIENDO LOS GALONES DE GASOLINE, ASI VAYA SOLICITANDO COMUNICARSE CON LA EC
+    }
     
-    
+   
+
+    public int getCantidadPasejeros() {
+        return cantidadPasejeros;
+    }
+     public static void setTiempoDespegue(int nuevoTiempoDespegue) {
+        tiempoDespegue = nuevoTiempoDespegue;
+    }
 }

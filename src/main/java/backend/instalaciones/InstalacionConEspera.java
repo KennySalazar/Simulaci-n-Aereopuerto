@@ -12,7 +12,7 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  *
  * @author Kenny
  */
-public class InstalacionConEspera extends Instalacion {
+public abstract class InstalacionConEspera extends Instalacion {
    protected Cola<Avion> avionesEnEspera;
    
     public InstalacionConEspera(int ID, int cantidad) {

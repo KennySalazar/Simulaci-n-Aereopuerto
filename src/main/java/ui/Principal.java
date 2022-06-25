@@ -5,11 +5,15 @@
 
 package ui;
 
+import backend.MotorSimulacion;
+
 /**
  *
  * @author Kenny
  */
 public class Principal extends javax.swing.JFrame {
+
+    MotorSimulacion motor;
 
     /** Creates new form Principal */
     public Principal() {
@@ -185,25 +189,36 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JMenuConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JMenuConfigMouseClicked
-        Configuracion configuracion = new Configuracion();
-        configuracion.setVisible(true);
+        abrirConfiguracion();
     }//GEN-LAST:event_JMenuConfigMouseClicked
 
     private void IniciarSimulacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IniciarSimulacionMouseClicked
 
-        CargarArchivos cargarArhivo = new CargarArchivos();
+        CargarArchivos cargarArhivo = new CargarArchivos(this);
         cargarArhivo.setVisible(true);
         cargarArhivo.setLocationRelativeTo(this);
         setEnabled(false);
-        
-        //Configuracion configuracion = new Configuracion();
-        //configuracion.setVisible(true);
+
     }//GEN-LAST:event_IniciarSimulacionMouseClicked
-    
+
+    public void abrirConfiguracion () {
+        Configuracion configuracion = new Configuracion(this);
+        configuracion.setLocationRelativeTo(this);
+        configuracion.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */
 
+    public void crearSimulacion(CargarArchivos ca) {
+
+        motor = new MotorSimulacion(ca.getAviones(),ca.getEstacionesControl(),ca.getPistasAterrizaje(),ca.getEstacionesDesabordaje(), ca.getEstacionesMantenimiento());
+        abrirConfiguracion();
+    }
+    
+    public void mostrarAereopuerto(){
+        motor.iniciarSimulacion();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu IniciarSimulacion;

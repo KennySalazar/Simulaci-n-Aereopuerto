@@ -13,6 +13,7 @@ import backend.estructuras.lista.Lista;
  */
 public class EstacionControl extends Instalacion {
     private Lista<Avion>avionesContactados;
+   
 
     public EstacionControl(int ID, int cantidad) {
         super(ID, cantidad);

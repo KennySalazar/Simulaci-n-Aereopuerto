@@ -10,20 +10,20 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  *
  * @author Kenny
  */
-public class PistaAterrizaje extends InstalacionConEspera {
-
-    private static int tiempoAterrizaje;
-
-    public PistaAterrizaje(int ID, int cantidad) {
+public class EstacionMantenimiento extends InstalacionConEspera{
+    private static int tiempoMantenimiento;
+    
+    public EstacionMantenimiento(int ID, int cantidad) {
         super(ID, cantidad);
     }
 
-    @Override
+     @Override
     public void run() {
-
+        
     }
-
-    public static void setTiempoAterrizaje(int nuevoTiempoAterrizaje) {
-        tiempoAterrizaje = nuevoTiempoAterrizaje;
+    public static void setTiempoMantenimiento(int nuevoTiempoMantenimiento){
+        tiempoMantenimiento = nuevoTiempoMantenimiento;
+        
     }
+    
 }
