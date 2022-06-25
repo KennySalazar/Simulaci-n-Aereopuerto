@@ -31,4 +31,29 @@ public class MotorSimulacion {
     public void iniciarSimulacion(){
         
     }
+
+    public Lista<Avion> getAviones() {
+        return aviones;
+    }
+
+    public Lista<EstacionControl> getEstacionesControl() {
+        return estacionesControl;
+    }
+
+    public Lista<PistaAterrizaje> getPistasAterrizaje() {
+        return pistasAterrizaje;
+    }
+
+    public Lista<EstacionDesabordaje> getEstacionesDesabordaje() {
+        return estacionesDesabordaje;
+    }
+
+    public Lista<EstacionMantenimiento> getEstacionesMantenimiento() {
+        return estacionesMantenimiento;
+    }
+
+    public Lista<Log> getLogs() {
+        return logs;
+    }
+    
 }

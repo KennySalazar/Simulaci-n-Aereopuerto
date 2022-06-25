@@ -11,7 +11,7 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  * @author Kenny
  */
 public abstract class Instalacion extends Thread {
-    
+    protected String ocupados;
     protected int ID;
     protected int cantidad;
     protected InstalacionCuadro cuadro;
@@ -19,8 +19,25 @@ public abstract class Instalacion extends Thread {
     public Instalacion(int ID, int cantidad) {
         this.ID = ID;
         this.cantidad = cantidad;
-        
+        armarTexto(0);
     }
+    
+     public void armarTexto(int cantidadContactados){
+        ocupados = cantidadContactados + "/" + cantidad;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public String getOcupados() {
+        return ocupados;
+    }
+
     
     
     

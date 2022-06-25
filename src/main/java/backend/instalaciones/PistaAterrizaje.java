@@ -13,6 +13,7 @@ import ui.cuadro.instalacion.InstalacionCuadro;
 public class PistaAterrizaje extends InstalacionConEspera {
 
     private static int tiempoAterrizaje;
+    private String ocupados;
 
     public PistaAterrizaje(int ID, int cantidad) {
         super(ID, cantidad);

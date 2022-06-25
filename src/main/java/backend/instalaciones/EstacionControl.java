@@ -18,8 +18,7 @@ public class EstacionControl extends Instalacion {
     public EstacionControl(int ID, int cantidad) {
         super(ID, cantidad);
         avionesContactados = new Lista<Avion>();
+        
     }
-
-
 
 }
