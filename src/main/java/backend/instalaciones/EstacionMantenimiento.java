@@ -4,6 +4,8 @@
  */
 package backend.instalaciones;
 
+import backend.estructuras.lista.Lista;
+import backend.estructuras.lista.ListaException;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**
@@ -23,6 +25,21 @@ public class EstacionMantenimiento extends InstalacionConEspera{
     }
     public static void setTiempoMantenimiento(int nuevoTiempoMantenimiento){
         tiempoMantenimiento = nuevoTiempoMantenimiento;
+        
+    }
+     @Override
+    public void crearLista(Lista lineas, Lista elementos){
+          for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+            try {
+                String[] separador = ((String)lineas.obtenerElemento(i)).split(",");
+                EstacionMantenimiento estacionM = new EstacionMantenimiento(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
+                elementos.agregar(estacionM);
+
+            } catch (ListaException ex) {
+
+            }
+        }
+        
         
     }
     

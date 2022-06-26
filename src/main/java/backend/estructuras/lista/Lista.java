@@ -10,7 +10,7 @@ package backend.estructuras.lista;
  */
 import java.io.Serializable;
 
-public class Lista<T> implements Serializable {
+public class Lista<T> implements Serializable{
 
     private Nodo<T> inicio;
     private Nodo<T> ultimo;

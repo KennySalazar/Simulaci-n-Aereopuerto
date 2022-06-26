@@ -5,6 +5,8 @@
 package backend.instalaciones;
 
 import backend.Avion;
+import backend.estructuras.lista.Lista;
+import backend.estructuras.lista.ListaException;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**
@@ -34,6 +36,22 @@ public class EstacionDesabordaje extends InstalacionConEspera {
     public static void setTiempoDesabordar(int tiempoDesabordo) {
         tiempoDesabordar = tiempoDesabordo;
 
+    }
+    
+     @Override
+    public void crearLista(Lista lineas, Lista elementos){
+          for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+            try {
+                String[] separador = ((String)lineas.obtenerElemento(i)).split(",");
+                EstacionDesabordaje estacionD = new EstacionDesabordaje(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
+                elementos.agregar(estacionD);
+
+            } catch (ListaException ex) {
+
+            }
+        }
+        
+        
     }
 
 }

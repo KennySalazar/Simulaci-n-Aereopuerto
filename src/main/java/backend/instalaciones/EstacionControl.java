@@ -6,6 +6,7 @@ package backend.instalaciones;
 
 import backend.Avion;
 import backend.estructuras.lista.Lista;
+import backend.estructuras.lista.ListaException;
 
 /**
  *
@@ -14,6 +15,7 @@ import backend.estructuras.lista.Lista;
 public class EstacionControl extends Instalacion {
     private Lista<Avion>avionesContactados;
    
+   
 
     public EstacionControl(int ID, int cantidad) {
         super(ID, cantidad);
@@ -21,4 +23,23 @@ public class EstacionControl extends Instalacion {
         
     }
 
+    public Lista<Avion> getAvionesContactados() {
+        return avionesContactados;
+    }
+    
+    @Override
+    public void crearLista(Lista lineas, Lista elementos){
+          for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+            try {
+                String[] separador = ((String)lineas.obtenerElemento(i)).split(",");
+                EstacionControl estacionC = new EstacionControl(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
+                elementos.agregar(estacionC);
+
+            } catch (ListaException ex) {
+
+            }
+        }
+          
+    }
+    
 }

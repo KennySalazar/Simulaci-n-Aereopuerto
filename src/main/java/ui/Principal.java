@@ -4,8 +4,13 @@
  */
 package ui;
 
+import backend.Avion;
 import backend.MotorSimulacion;
+import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.ListaException;
+import backend.instalaciones.*;
+
+import javax.swing.*;
 
 /**
  *
@@ -101,7 +106,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxPistaA, 0, 101, Short.MAX_VALUE)
+                    .addComponent(jComboBoxPistaA, 0, 177, Short.MAX_VALUE)
                     .addComponent(jComboBoxEstacionC, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxAvionesContactados, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -169,9 +174,9 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(19, Short.MAX_VALUE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator2))
                 .addContainerGap())
@@ -202,6 +207,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void IniciarSimulacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IniciarSimulacionMouseClicked
 
+        motor = new MotorSimulacion(new Lista<>(),new Lista<>(),new Lista<>(),new Lista<>(),new Lista<>());
         CargarArchivos cargarArhivo = new CargarArchivos(this);
         cargarArhivo.setVisible(true);
         cargarArhivo.setLocationRelativeTo(this);
@@ -223,31 +229,48 @@ public class Principal extends javax.swing.JFrame {
         configuracion.setVisible(true);
     }
 
-    public void crearSimulacion(CargarArchivos ca) {
-
-        motor = new MotorSimulacion(ca.getAviones(), ca.getEstacionesControl(), ca.getPistasAterrizaje(), ca.getEstacionesDesabordaje(), ca.getEstacionesMantenimiento());
-        abrirConfiguracion();
-    }
-
     public void mostrarAereopuerto() {
         motor.iniciarSimulacion();
         try {
-            mostrarComboBox();
-
+            mostrarComboBoxInstalacion(jComboBoxEstacionC, motor.getEstacionesControl(), "A. Contactados: ");
+            mostrarComboBoxInstalacion(jComboBoxPistaA, motor.getPistasAterrizaje(), "A. en Cola: ");
+            mostrarAvionesSegunEstacionSeleccionada();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
-    public void mostrarComboBox() throws ListaException {
-        jComboBoxEstacionC.setEnabled(true);
+    public void mostrarAvionesSegunEstacionSeleccionada() throws ListaException {
+        int selectedIndex = jComboBoxEstacionC.getSelectedIndex();
+        EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndex);
+        mostrarComboBoxAviones(estacion);
+    }
 
-        for (int i = 0; i < motor.getEstacionesControl().obtenerLongitud(); i++) {
-            String texto = "ID: " + motor.getEstacionesControl().obtenerElemento(i).getID()
-                    + motor.getEstacionesControl().obtenerElemento(i).getOcupados();
-            jComboBoxEstacionC.addItem(texto);
+    public void mostrarComboBoxInstalacion(JComboBox combo, Lista lista, String textoEspecifico) throws ListaException {
+        combo.setEnabled(true);
+
+        for (int i = 0; i < lista.obtenerLongitud(); i++) {
+            String id = "ID: " + ((Instalacion) lista.obtenerElemento(i)).getID();
+            String ocupados = ", "+ textoEspecifico +  ((Instalacion) lista.obtenerElemento(i)).getOcupados();
+
+            String texto = id + ocupados;
+            combo.addItem(texto);
         }
 
+    }
+
+    public void mostrarComboBoxAviones(EstacionControl estacionControl) throws ListaException {
+        jComboBoxAvionesContactados.setEnabled(true);
+        for (int i = 0; i < estacionControl.getAvionesContactados().obtenerLongitud(); i++) {
+            Avion avionContactado = estacionControl.getAvionesContactados().obtenerElemento(i);
+            String texto = "ID: " + avionContactado.getID() +  " - " +avionContactado.getTipo();
+            jComboBoxAvionesContactados.addItem(texto);
+        }
+    }
+
+    public MotorSimulacion getMotor() {
+        return motor;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,10 +4,10 @@
  */
 package backend.instalaciones;
 
+import backend.estructuras.lista.Lista;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**
- *
  * @author Kenny
  */
 public abstract class Instalacion extends Thread {
@@ -21,8 +21,8 @@ public abstract class Instalacion extends Thread {
         this.cantidad = cantidad;
         armarTexto(0);
     }
-    
-     public void armarTexto(int cantidadContactados){
+
+    public void armarTexto(int cantidadContactados) {
         ocupados = cantidadContactados + "/" + cantidad;
     }
 
@@ -38,8 +38,10 @@ public abstract class Instalacion extends Thread {
         return ocupados;
     }
 
+    @Override
+    public void run() {
+
+    }
     
-    
-    
-    
+    public abstract void crearLista(Lista lineas, Lista elementos);
 }
