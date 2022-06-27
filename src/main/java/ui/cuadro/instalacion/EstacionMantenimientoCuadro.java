@@ -5,21 +5,19 @@
 package ui.cuadro.instalacion;
 
 import Interfaces.Posicionable;
+import backend.instalaciones.InstalacionConEspera;
 
 /**
  *
  * @author Kenny
  */
-public class EstacionMantenimientoCuadro extends InstalacionCuadro implements Posicionable{
+public class EstacionMantenimientoCuadro extends InstalacionCuadro implements Posicionable {
 
-    @Override
-    public void posicionarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public EstacionMantenimientoCuadro(InstalacionConEspera instalacionEspera) {
+        super("/imagenes/estacionMantenimiento.png");
+        this.instalacionEspera = instalacionEspera;
     }
 
-    @Override
-    public void actualizarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+
+
 }

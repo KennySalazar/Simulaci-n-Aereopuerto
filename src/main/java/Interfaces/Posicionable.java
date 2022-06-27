@@ -10,7 +10,7 @@ package Interfaces;
  */
 public interface Posicionable {
     
-    public void posicionarElementos();
+    public void posicionarElementos(int ancho, int alto);
     public void actualizarElementos();
     
     

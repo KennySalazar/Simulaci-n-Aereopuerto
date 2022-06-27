@@ -19,6 +19,7 @@ public class PistaAterrizaje extends InstalacionConEspera {
 
     public PistaAterrizaje(int ID, int cantidad) {
         super(ID, cantidad);
+        tiempoFaltante = (tiempoAterrizaje/1000) + "s";
     }
 
     @Override

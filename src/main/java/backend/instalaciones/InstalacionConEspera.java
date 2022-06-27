@@ -14,10 +14,16 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  */
 public abstract class InstalacionConEspera extends Instalacion {
    protected Cola<Avion> avionesEnEspera;
+   protected String tiempoFaltante;
    
     public InstalacionConEspera(int ID, int cantidad) {
         super(ID, cantidad);
         avionesEnEspera = new Cola<Avion>();
+   
+    }
+
+    public String getTiempoFaltante() {
+        return tiempoFaltante;
     }
     
 }

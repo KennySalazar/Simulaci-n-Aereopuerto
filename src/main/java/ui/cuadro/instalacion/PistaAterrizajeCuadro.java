@@ -5,23 +5,22 @@
 package ui.cuadro.instalacion;
 
 import Interfaces.Posicionable;
+import backend.instalaciones.InstalacionConEspera;
 import backend.instalaciones.PistaAterrizaje;
+
 
 /**
  *
  * @author Kenny
  */
-public class PistaAterrizajeCuadro extends InstalacionCuadro implements Posicionable{
+public class PistaAterrizajeCuadro extends InstalacionCuadro {
+    
 
-    @Override
-    public void posicionarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public PistaAterrizajeCuadro(InstalacionConEspera instalacionEspera) {
+        super("/imagenes/pistaAterrizaje.png");
+        this.instalacionEspera = instalacionEspera;
+        
     }
 
-    @Override
-    public void actualizarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
+
 }

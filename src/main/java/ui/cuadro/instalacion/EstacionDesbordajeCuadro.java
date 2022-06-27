@@ -6,24 +6,19 @@ package ui.cuadro.instalacion;
 
 import Interfaces.Posicionable;
 import backend.Avion;
+import backend.instalaciones.InstalacionConEspera;
 
 /**
  *
  * @author Kenny
  */
-public class EstacionDesbordajeCuadro extends InstalacionCuadro implements Posicionable{
+public class EstacionDesbordajeCuadro extends InstalacionCuadro{
 
-    
-    
-    
-    @Override
-    public void posicionarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public EstacionDesbordajeCuadro(InstalacionConEspera instalacionEspera) {
+        super("/imagenes/estacionDesabordaje.png");
+        this.instalacionEspera = instalacionEspera;
     }
 
-    @Override
-    public void actualizarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
 }

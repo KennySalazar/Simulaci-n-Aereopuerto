@@ -9,15 +9,15 @@ import backend.Avion;
  */
 public class AvionDespegueCuadro extends AvionCuadro implements Posicionable, Runnable {
 
-    
+   
 
     public AvionDespegueCuadro(Avion avion) {
         super(avion);
     }
 
     @Override
-    public void posicionarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void posicionarElementos(int ancho, int alto) {
+
     }
 
     @Override

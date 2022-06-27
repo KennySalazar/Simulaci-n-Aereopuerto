@@ -17,6 +17,7 @@ public class EstacionMantenimiento extends InstalacionConEspera{
     
     public EstacionMantenimiento(int ID, int cantidad) {
         super(ID, cantidad);
+         tiempoFaltante = tiempoMantenimiento + "s";
     }
 
      @Override

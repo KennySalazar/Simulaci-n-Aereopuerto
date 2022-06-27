@@ -22,6 +22,7 @@ public class EstacionDesabordaje extends InstalacionConEspera {
     public void setAvionDesabordando(Avion avionDesabordando) {
         this.avionDesabordando = avionDesabordando;
         tiempoFinal = avionDesabordando.getCantidadPasejeros() * tiempoDesabordar;
+        tiempoFaltante = tiempoFinal + "s";
     }
 
     public EstacionDesabordaje(int ID, int cantidad) {

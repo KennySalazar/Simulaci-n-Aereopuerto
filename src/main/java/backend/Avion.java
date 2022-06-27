@@ -24,6 +24,7 @@ public class Avion extends Thread {
     private EstacionControl estacionControl;
     private AvionCuadro cuadro;
     private int cantidadPasejeros;
+    private double porcentajeGasolina;
     Random rd = new Random();
 
     private static int tiempoDespegue;
@@ -42,7 +43,8 @@ public class Avion extends Thread {
         } else {
             cantidadPasejeros = rd.nextInt(5) + 5;
         }
-
+        porcentajeGasolina = 1;
+        combustibleActual = combustible;
     }
 
     public static void setTiempoGastoCombustible(int nuevoTiempoGastoCombustible) {
@@ -84,6 +86,18 @@ public class Avion extends Thread {
         }
         
         
+    }
+
+    public double getPorcentajeGasolina() {
+        return porcentajeGasolina;
+    }
+
+    public int getCombustibleActual() {
+        return combustibleActual;
+    }
+
+    public EstacionControl getEstacionControl() {
+        return estacionControl;
     }
 
 }
