@@ -32,7 +32,7 @@ public class EstacionControlCuadro extends Cuadro implements Posicionable {
         ponerFuente(alto, 12, 150);
         iniciarCuadro(ancho, alto);
 
-        setBackground(new Color(73, 189, 224));
+        setBackground(Color.ORANGE);
         desplegarTextoID(estacionCon.getID());
         desplegarTextoAvionesContactados();
 

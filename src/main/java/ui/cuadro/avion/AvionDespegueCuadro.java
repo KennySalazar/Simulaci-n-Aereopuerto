@@ -2,34 +2,26 @@ package ui.cuadro.avion;
 
 import Interfaces.Posicionable;
 import backend.Avion;
+import java.awt.Color;
 
 /**
  *
  * @author Kenny
  */
-public class AvionDespegueCuadro extends AvionCuadro implements Posicionable, Runnable {
-
-   
-
+public class AvionDespegueCuadro extends AvionCuadro {
+    
     public AvionDespegueCuadro(Avion avion) {
         super(avion);
     }
-
+    
     @Override
     public void posicionarElementos(int ancho, int alto) {
-
+        super.posicionarElementos(ancho, alto);
+        setBackground(Color.GREEN);
     }
-
+    
     @Override
     public void actualizarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-   
-
+    
 }

@@ -18,26 +18,25 @@ import ui.cuadro.Cuadro;
  *
  * @author Kenny
  */
-public class InstalacionCuadro extends Cuadro implements Posicionable{
-    
+public class InstalacionCuadro extends Cuadro implements Posicionable {
+
     private JLabel avionesEnEspera;
     private JLabel tiempoPorAvion;
-    
-    protected InstalacionConEspera instalacionEspera; 
-    
-    public InstalacionCuadro(String path){
+
+    protected InstalacionConEspera instalacionEspera;
+
+    public InstalacionCuadro(String path) {
         super(path);
         avionesEnEspera = new JLabel();
         tiempoPorAvion = new JLabel();
-       
+
     }
 
     @Override
     public void posicionarElementos(int ancho, int alto) {
-          ponerFuente(alto, 12, 150);
+        ponerFuente(alto, 12, 150);
         iniciarCuadro(ancho, alto);
 
-        setBackground(new Color(73, 189, 224));
         desplegarTextoID(instalacionEspera.getID());
         desplegarTextoAvionesEnEspera();
         desplegarTextoTiempoFaltante();
@@ -60,27 +59,24 @@ public class InstalacionCuadro extends Cuadro implements Posicionable{
         ponerToolTips();
         setToolTipText(toolTipTexto);
     }
-    
-    
 
     @Override
     public void actualizarElementos() {
     }
-    
-     public void ponerToolTips() {
-     super.ponerToolTips(instalacionEspera.getID());
+
+    public void ponerToolTips() {
+        super.ponerToolTips(instalacionEspera.getID());
         toolTipTexto += instalacionEspera.getOcupados() + " - " + instalacionEspera.getTiempoFaltante();
     }
-     
-    public void desplegarTextoAvionesEnEspera(){
-         avionesEnEspera.setFont(fuente);
+
+    public void desplegarTextoAvionesEnEspera() {
+        avionesEnEspera.setFont(fuente);
         avionesEnEspera.setText("Aviones en Cola: " + instalacionEspera.getOcupados());
-        
+
     }
-    
-     public void desplegarTextoTiempoFaltante() {
+
+    public void desplegarTextoTiempoFaltante() {
         tiempoPorAvion.setFont(fuente);
         tiempoPorAvion.setText("Tiempo por avión: " + instalacionEspera.getTiempoFaltante());
-   }
+    }
 }
-

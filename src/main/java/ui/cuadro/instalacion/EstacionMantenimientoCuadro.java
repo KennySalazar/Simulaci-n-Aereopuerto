@@ -6,6 +6,8 @@ package ui.cuadro.instalacion;
 
 import Interfaces.Posicionable;
 import backend.instalaciones.InstalacionConEspera;
+import java.awt.Color;
+
 
 /**
  *
@@ -18,6 +20,15 @@ public class EstacionMantenimientoCuadro extends InstalacionCuadro implements Po
         this.instalacionEspera = instalacionEspera;
     }
 
+    @Override
+    public void posicionarElementos(int ancho, int alto) {
+        super.posicionarElementos(ancho, alto);
+        setBackground(Color.yellow);
 
+    }
+
+    @Override
+    public void actualizarElementos() {
+    }
 
 }
