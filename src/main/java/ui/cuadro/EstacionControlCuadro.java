@@ -22,7 +22,7 @@ public class EstacionControlCuadro extends Cuadro implements Posicionable {
     private EstacionControl estacionCon;
 
     public EstacionControlCuadro(EstacionControl estacionCon) {
-        super("/imagenes/estacionControl.jpg");
+        super("/imagenes/estacionControl.png");
         this.estacionCon = estacionCon;
         avionesContactadoLabel = new JLabel();
     }
@@ -32,7 +32,7 @@ public class EstacionControlCuadro extends Cuadro implements Posicionable {
         ponerFuente(alto, 12, 150);
         iniciarCuadro(ancho, alto);
 
-        setBackground(Color.ORANGE);
+        setBackground(new Color(252, 170, 126));
         desplegarTextoID(estacionCon.getID());
         desplegarTextoAvionesContactados();
 
@@ -47,7 +47,7 @@ public class EstacionControlCuadro extends Cuadro implements Posicionable {
 
         add(textos);
         add(imagen);
-        imagen.setBounds(1, tamaño.height + 1, ancho, alto - tamaño.height);
+        imagen.setBounds(1, tamaño.height, ancho, alto - tamaño.height-3);
         cambiarTamaño();
 
         ponerToolTips();

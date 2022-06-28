@@ -14,10 +14,16 @@ import ui.cuadro.instalacion.InstalacionCuadro;
  */
 public class EstacionMantenimiento extends InstalacionConEspera{
     private static int tiempoMantenimiento;
+    private int tiempoFinal;
     
     public EstacionMantenimiento(int ID, int cantidad) {
         super(ID, cantidad);
-         tiempoFaltante = tiempoMantenimiento + "s";
+        tiempoFaltante =  "0s";
+    }
+
+    public void calcularTiempo() {
+        tiempoFinal = avionActivo.getCantidadPasejeros() * EstacionMantenimiento.tiempoMantenimiento;
+        tiempoFaltante = tiempoFinal + "s";
     }
 
      @Override

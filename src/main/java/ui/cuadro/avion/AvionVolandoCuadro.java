@@ -25,7 +25,7 @@ public class AvionVolandoCuadro extends AvionCuadro {
     @Override
     public void posicionarElementos(int ancho, int alto) {
         super.posicionarElementos(ancho, alto);
-        setBackground(new Color(73, 189, 224));
+        setBackground(new Color(30, 229, 232));
     }
 
     @Override

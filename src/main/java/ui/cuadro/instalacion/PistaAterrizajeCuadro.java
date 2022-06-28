@@ -24,7 +24,7 @@ public class PistaAterrizajeCuadro extends InstalacionCuadro {
     @Override
     public void posicionarElementos(int ancho, int alto) {
         super.posicionarElementos(ancho, alto);
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(new Color(212, 212, 203));
 
     }
 

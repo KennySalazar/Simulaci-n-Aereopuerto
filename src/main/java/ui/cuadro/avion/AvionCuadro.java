@@ -6,15 +6,16 @@ package ui.cuadro.avion;
 
 import Interfaces.Posicionable;
 import backend.Avion;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import ui.cuadro.Cuadro;
 
 /**
- *
  * @author Kenny
  */
 public class AvionCuadro extends Cuadro implements Posicionable {
@@ -35,37 +36,41 @@ public class AvionCuadro extends Cuadro implements Posicionable {
 
     @Override
     public void posicionarElementos(int ancho, int alto) {
+        try {
 
-        ponerFuente(alto, 12, 150);
-        iniciarCuadro(ancho, alto);
+            ponerFuente(alto, 12, 150);
+            iniciarCuadro(ancho, alto);
 
-        // desplegando información
-        
-        desplegarTextoID(avion.getID());
-        desplegarTextoCantidadPasajeros();
-        desplegarTextoCombustible();
-        desplegarEstacionContacto();
+            // desplegando información
 
-        // añadiendo componentes del cuadro
-        JPanel textos = new JPanel();
-        textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
+            desplegarTextoID(avion.getID());
+            desplegarTextoCantidadPasajeros();
+            desplegarTextoCombustible();
+            desplegarEstacionContacto();
 
-        textos.add(galonesCombustible);
-        textos.add(ID);
-        textos.add(estacionContacto);
-        textos.add(cantidadPasajeros);
+            // añadiendo componentes del cuadro
+            JPanel textos = new JPanel();
+            textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
 
-        Dimension tamaño = textos.getPreferredSize();
-        textos.setBounds(3, 3, tamaño.width, tamaño.height);
-        textos.setOpaque(false);
+            textos.add(galonesCombustible);
+            textos.add(ID);
+            textos.add(estacionContacto);
+            textos.add(cantidadPasajeros);
 
-        add(textos);
-        add(imagen);
-        imagen.setBounds(1, tamaño.height + 1, ancho, alto - tamaño.height);
-        cambiarTamaño();
+            Dimension tamaño = textos.getPreferredSize();
+            textos.setBounds(3, 3, tamaño.width, tamaño.height);
+            textos.setOpaque(false);
 
-        ponerToolTips();
-        setToolTipText(toolTipTexto);
+            add(textos);
+            add(imagen);
+            imagen.setBounds(1, tamaño.height + 1, ancho, alto - tamaño.height);
+            cambiarTamaño();
+
+            ponerToolTips();
+            setToolTipText(toolTipTexto);
+        } catch(NullPointerException exception){
+            iniciarCuadro(ancho, alto);
+        }
 
     }
 
@@ -78,8 +83,7 @@ public class AvionCuadro extends Cuadro implements Posicionable {
         galonesCombustible.setFont(fuente);
         galonesCombustible.setText("Combustible: " + avion.getCombustibleActual() + ", " + Math.round(avion.getPorcentajeGasolina() * 100) + "%");
     }
-    
-    
+
 
     public void ponerToolTips() {
         super.ponerToolTips(avion.getID());

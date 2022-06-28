@@ -23,7 +23,7 @@ public class EstacionDesbordajeCuadro extends InstalacionCuadro {
     @Override
     public void posicionarElementos(int ancho, int alto) {
         super.posicionarElementos(ancho, alto);
-        setBackground(Color.red);
+        setBackground(new Color(245, 81, 86));
     }
 
     @Override

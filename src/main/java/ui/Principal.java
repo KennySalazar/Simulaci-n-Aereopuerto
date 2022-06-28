@@ -76,11 +76,11 @@ public class Principal extends javax.swing.JFrame {
         jPanelAereopuerto.setLayout(jPanelAereopuertoLayout);
         jPanelAereopuertoLayout.setHorizontalGroup(
             jPanelAereopuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 573, Short.MAX_VALUE)
+            .addGap(0, 881, Short.MAX_VALUE)
         );
         jPanelAereopuertoLayout.setVerticalGroup(
             jPanelAereopuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 624, Short.MAX_VALUE)
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Control del Aeropuerto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Black", 2, 12))); // NOI18N
@@ -154,7 +154,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel4.setText("Avión Volando");
         jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
-        jLabel5.setBackground(new java.awt.Color(0, 255, 0));
+        jLabel5.setBackground(new java.awt.Color(167, 245, 108));
         jLabel5.setOpaque(true);
         jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 18, 16));
 
@@ -164,32 +164,32 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setText("Avión en zona de Despegue");
         jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, 19));
 
-        jLabel9.setBackground(new java.awt.Color(0, 204, 255));
+        jLabel9.setBackground(new java.awt.Color(30, 229, 232));
         jLabel9.setOpaque(true);
         jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 18, 16));
 
-        jLabel7.setBackground(new java.awt.Color(255, 153, 0));
+        jLabel7.setBackground(new java.awt.Color(252, 170, 126));
         jLabel7.setOpaque(true);
         jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 18, 16));
 
         jLabel10.setText("Pista de Aterrizaje");
         jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, 19));
 
-        jLabel11.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel11.setBackground(new java.awt.Color(212, 212, 203));
         jLabel11.setOpaque(true);
         jPanel4.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 18, 16));
 
         jLabel12.setText("Estación de Desabordaje");
         jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, 19));
 
-        jLabel13.setBackground(new java.awt.Color(255, 0, 0));
+        jLabel13.setBackground(new java.awt.Color(245, 81, 86));
         jLabel13.setOpaque(true);
         jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 18, 16));
 
         jLabel14.setText("Estación de Mantenimiento");
         jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 19));
 
-        jLabel15.setBackground(new java.awt.Color(255, 255, 0));
+        jLabel15.setBackground(new java.awt.Color(250, 250, 60));
         jLabel15.setOpaque(true);
         jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 18, 16));
 
@@ -237,8 +237,9 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(jPanelAereopuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelAereopuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 12, Short.MAX_VALUE))
                     .addComponent(jSeparator2))
                 .addContainerGap())
         );
@@ -248,14 +249,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanelAereopuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();

@@ -37,7 +37,7 @@ public class Cuadro extends JPanel {
 
     public void cambiarTamaño(){
         Image nuevaImagen = icon.getImage();
-        Image imagenNuevoTamaño = nuevaImagen.getScaledInstance(imagen.getWidth(), imagen.getHeight(),Image.SCALE_SMOOTH);
+        Image imagenNuevoTamaño = nuevaImagen.getScaledInstance(imagen.getHeight(), imagen.getHeight(),Image.SCALE_SMOOTH);
         ImageIcon iconoEscalado =  new ImageIcon(imagenNuevoTamaño);
         imagen.setIcon(iconoEscalado);
     }
@@ -54,8 +54,8 @@ public class Cuadro extends JPanel {
     public void iniciarCuadro(int ancho , int alto){
         // Iniciando cuadro
         setPreferredSize(new Dimension( ancho,alto));
-        Border border = BorderFactory.createLineBorder(new Color(75, 75, 75),1);
-        setBorder(border);
+//        Border border = BorderFactory.createLineBorder(new Color(75, 75, 75),1);
+//        setBorder(border);
         setLayout(null);    }
     
 }

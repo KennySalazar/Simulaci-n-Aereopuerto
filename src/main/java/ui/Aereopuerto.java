@@ -3,7 +3,7 @@ package ui;
 import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.ListaException;
-import backend.instalaciones.EstacionControl;
+import ui.cuadro.EstacionControlCuadro;
 import ui.cuadro.avion.AvionDespegueCuadro;
 import ui.cuadro.avion.AvionVolandoCuadro;
 import ui.cuadro.instalacion.EstacionDesbordajeCuadro;
@@ -11,6 +11,7 @@ import ui.cuadro.instalacion.EstacionMantenimientoCuadro;
 import ui.cuadro.instalacion.PistaAterrizajeCuadro;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -20,7 +21,7 @@ import java.awt.*;
 public class Aereopuerto extends JPanel {
     private Lista<AvionDespegueCuadro> avionesDespegue;
     private Lista<AvionVolandoCuadro> avionesVolando;
-    private Lista<EstacionControl > estacionesControl;
+    private Lista<EstacionControlCuadro > estacionesControl;
     private Lista<EstacionDesbordajeCuadro > estacionesDesbordaje;
     private Lista<EstacionMantenimientoCuadro> estacionesMantenimiento;
     private Lista<PistaAterrizajeCuadro > pistasAterrizaje;
@@ -39,10 +40,17 @@ public class Aereopuerto extends JPanel {
     }
 
     public void iniciarAereopuerto() {
-        setLayout(new GridLayout(motor.getAviones().obtenerLongitud(), 6));
-        anchoCuadro = Math.round(getWidth() / 6);
-        altoCuadro = Math.round(getHeight() / motor.getAviones().obtenerLongitud());
+        setLayout(new GridLayout(6, motor.getAviones().obtenerLongitud()));
+        anchoCuadro = Math.round(getWidth() / motor.getAviones().obtenerLongitud());
+        altoCuadro = Math.round(getHeight() / 6);
         desplegarAvionesVolando();
+        desplegarEstacionesControl();
+        desplegarPistasAterrizaje();
+        desplegarEstacionesDesabordaje();
+        desplegarEstacionMantenimiento();
+        desplegarAvionesDespegue();
+        Border border = BorderFactory.createTitledBorder("Aereopuerto");
+        setBorder(border);
     }
 
     public void desplegarAvionesVolando() {
@@ -51,9 +59,78 @@ public class Aereopuerto extends JPanel {
                 AvionVolandoCuadro avionVolandoCuadro = new AvionVolandoCuadro(motor.getAviones().obtenerElemento(i));
                 avionVolandoCuadro.posicionarElementos(anchoCuadro, altoCuadro);
                 add(avionVolandoCuadro);
+                avionesVolando.agregar(avionVolandoCuadro);
             } catch (ListaException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void desplegarEstacionesControl() {
+        for (int i = 0; i < motor.getAviones().obtenerLongitud(); i++) {
+            try {
+                EstacionControlCuadro estacionControlCuadro = new EstacionControlCuadro(motor.getEstacionesControl().obtenerElemento(i));
+                estacionControlCuadro.posicionarElementos(anchoCuadro, altoCuadro);
+                add(estacionControlCuadro);
+                estacionesControl.agregar(estacionControlCuadro);
+            } catch (ListaException e) {
+                JPanel panel = new JPanel();
+                add(panel);
+                panel.setOpaque(false);
+            }
+        }
+    }
+
+    public void desplegarPistasAterrizaje() {
+        for (int i = 0; i < motor.getAviones().obtenerLongitud(); i++) {
+            try {
+                PistaAterrizajeCuadro pistaCuadro = new PistaAterrizajeCuadro(motor.getPistasAterrizaje().obtenerElemento(i));
+                pistaCuadro.posicionarElementos(anchoCuadro, altoCuadro);
+                add(pistaCuadro);
+                pistasAterrizaje.agregar(pistaCuadro);
+            } catch (ListaException e) {
+                JPanel panel = new JPanel();
+                add(panel);
+                panel.setOpaque(false);
+            }
+        }
+    }
+
+    public void desplegarEstacionesDesabordaje() {
+        for (int i = 0; i < motor.getAviones().obtenerLongitud(); i++) {
+            try {
+                EstacionDesbordajeCuadro desabordajeCuadro = new EstacionDesbordajeCuadro(motor.getEstacionesDesabordaje().obtenerElemento(i));
+                desabordajeCuadro.posicionarElementos(anchoCuadro, altoCuadro);
+                add(desabordajeCuadro);
+                estacionesDesbordaje.agregar(desabordajeCuadro);
+            } catch (ListaException e) {
+                JPanel panel = new JPanel();
+                add(panel);
+                panel.setOpaque(false);
+            }
+        }
+    }
+
+    public void desplegarEstacionMantenimiento() {
+        for (int i = 0; i < motor.getAviones().obtenerLongitud(); i++) {
+            try {
+                EstacionMantenimientoCuadro mantenimiento = new EstacionMantenimientoCuadro(motor.getEstacionesMantenimiento().obtenerElemento(i));
+                mantenimiento.posicionarElementos(anchoCuadro, altoCuadro);
+                add(mantenimiento);
+                estacionesMantenimiento.agregar(mantenimiento);
+            } catch (ListaException e) {
+                JPanel panel = new JPanel();
+                add(panel);
+                panel.setOpaque(false);
+            }
+        }
+    }
+
+    public void desplegarAvionesDespegue() {
+        for (int i = 0; i < motor.getAviones().obtenerLongitud(); i++) {
+            AvionDespegueCuadro avion = new AvionDespegueCuadro(null);
+            avion.posicionarElementos(anchoCuadro, altoCuadro);
+            add(avion);
         }
     }
 }

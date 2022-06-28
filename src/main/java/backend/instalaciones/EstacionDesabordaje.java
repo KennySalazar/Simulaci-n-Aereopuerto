@@ -17,16 +17,15 @@ public class EstacionDesabordaje extends InstalacionConEspera {
 
     private static int tiempoDesabordar;
     private int tiempoFinal;
-    private Avion avionDesabordando;
-
-    public void setAvionDesabordando(Avion avionDesabordando) {
-        this.avionDesabordando = avionDesabordando;
-        tiempoFinal = avionDesabordando.getCantidadPasejeros() * tiempoDesabordar;
-        tiempoFaltante = tiempoFinal + "s";
-    }
 
     public EstacionDesabordaje(int ID, int cantidad) {
         super(ID, cantidad);
+        tiempoFaltante = "0s";
+    }
+
+    public void calcularTiempo() {
+        tiempoFinal = avionActivo.getCantidadPasejeros() * EstacionDesabordaje.tiempoDesabordar;
+        tiempoFaltante = tiempoFinal + "s";
     }
 
     @Override

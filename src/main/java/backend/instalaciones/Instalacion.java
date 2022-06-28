@@ -4,6 +4,7 @@
  */
 package backend.instalaciones;
 
+import backend.Avion;
 import backend.estructuras.lista.Lista;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
@@ -15,6 +16,8 @@ public abstract class Instalacion extends Thread {
     protected int ID;
     protected int cantidad;
     protected InstalacionCuadro cuadro;
+    protected Avion avionActivo;
+
 
     public Instalacion(int ID, int cantidad) {
         this.ID = ID;
@@ -42,6 +45,10 @@ public abstract class Instalacion extends Thread {
     public void run() {
 
     }
-    
+
+    public void setAvionActivo(Avion avionActivo) {
+        this.avionActivo = avionActivo;
+    }
+
     public abstract void crearLista(Lista lineas, Lista elementos);
 }

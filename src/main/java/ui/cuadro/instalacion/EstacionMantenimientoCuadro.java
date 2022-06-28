@@ -23,7 +23,7 @@ public class EstacionMantenimientoCuadro extends InstalacionCuadro implements Po
     @Override
     public void posicionarElementos(int ancho, int alto) {
         super.posicionarElementos(ancho, alto);
-        setBackground(Color.yellow);
+        setBackground(new Color(250, 250, 60));
 
     }
 
