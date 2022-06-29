@@ -267,7 +267,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void IniciarSimulacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IniciarSimulacionMouseClicked
 
-        motor = new MotorSimulacion(new Lista<>(), new Lista<>(), new Lista<>(), new Lista<>(), new Lista<>());
+        motor = new MotorSimulacion(new Lista<>(), new Lista<>(), new Lista<>(), new Lista<>(), new Lista<>(), this);
         CargarArchivos cargarArhivo = new CargarArchivos(this);
         cargarArhivo.setVisible(true);
         cargarArhivo.setLocationRelativeTo(this);
@@ -289,8 +289,7 @@ public class Principal extends javax.swing.JFrame {
         configuracion.setVisible(true);
     }
 
-    public void mostrarAereopuerto() {
-        motor.iniciarSimulacion();
+    public void mostrarComboBox () {
         try {
             mostrarComboBoxInstalacion(jComboBoxEstacionC, motor.getEstacionesControl(), "A. Contactados: ");
             mostrarComboBoxInstalacion(jComboBoxPistaA, motor.getPistasAterrizaje(), "A. en Cola: ");
@@ -299,15 +298,22 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void mostrarAereopuerto() {
+        mostrarComboBox();
 
         aereopuerto = new Aereopuerto(motor);
         aereopuerto.setBounds(0, 0, jPanelAereopuerto.getWidth(), jPanelAereopuerto.getHeight());
         jPanelAereopuerto.add(aereopuerto);
         aereopuerto.iniciarAereopuerto();
 
+        motor.iniciarSimulacion();
+
     }
 
     public void mostrarAvionesSegunEstacionSeleccionada() throws ListaException {
+
         int selectedIndex = jComboBoxEstacionC.getSelectedIndex();
         EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndex);
         mostrarComboBoxAviones(estacion);
@@ -315,6 +321,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void mostrarComboBoxInstalacion(JComboBox combo, Lista lista, String textoEspecifico) throws ListaException {
         combo.setEnabled(true);
+        combo.removeAllItems();
 
         for (int i = 0; i < lista.obtenerLongitud(); i++) {
             String id = "ID: " + ((Instalacion) lista.obtenerElemento(i)).getID();
@@ -328,6 +335,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void mostrarComboBoxAviones(EstacionControl estacionControl) throws ListaException {
         jComboBoxAvionesContactados.setEnabled(true);
+        jComboBoxAvionesContactados.removeAllItems();
         for (int i = 0; i < estacionControl.getAvionesContactados().obtenerLongitud(); i++) {
             Avion avionContactado = estacionControl.getAvionesContactados().obtenerElemento(i);
             String texto = "ID: " + avionContactado.getID() + " - " + avionContactado.getTipo();

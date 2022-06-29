@@ -41,6 +41,10 @@ public abstract class Instalacion extends Thread {
         return ocupados;
     }
 
+    public void setCuadro(InstalacionCuadro cuadro) {
+        this.cuadro = cuadro;
+    }
+
     @Override
     public void run() {
 

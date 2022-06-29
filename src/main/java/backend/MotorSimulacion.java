@@ -5,10 +5,13 @@
 package backend;
 
 import backend.estructuras.lista.Lista;
+import backend.estructuras.lista.ListaException;
 import backend.instalaciones.*;
+import ui.Principal;
+
+import javax.swing.*;
 
 /**
- *
  * @author Kenny
  */
 public class MotorSimulacion {
@@ -18,18 +21,27 @@ public class MotorSimulacion {
     private Lista<PistaAterrizaje> pistasAterrizaje;
     private Lista<EstacionDesabordaje> estacionesDesabordaje;
     private Lista<EstacionMantenimiento> estacionesMantenimiento;
-    private Lista <Log> logs;
+    private Lista<Log> logs;
+    private Principal principal;
 
-    public MotorSimulacion(Lista<Avion> aviones, Lista<EstacionControl> estacionesControl, Lista<PistaAterrizaje> pistasAterrizaje, Lista<EstacionDesabordaje> estacionesDesabordaje, Lista<EstacionMantenimiento> estacionesMantenimiento) {
+    public MotorSimulacion(Lista<Avion> aviones, Lista<EstacionControl> estacionesControl, Lista<PistaAterrizaje> pistasAterrizaje, Lista<EstacionDesabordaje> estacionesDesabordaje, Lista<EstacionMantenimiento> estacionesMantenimiento, Principal principal) {
         this.aviones = aviones;
         this.estacionesControl = estacionesControl;
         this.pistasAterrizaje = pistasAterrizaje;
         this.estacionesDesabordaje = estacionesDesabordaje;
         this.estacionesMantenimiento = estacionesMantenimiento;
+        this.principal = principal;
     }
-    
-    public void iniciarSimulacion(){
-        
+
+    public void iniciarSimulacion() {
+        for (int i = 0; i < aviones.obtenerLongitud(); i++) {
+            try {
+                aviones.obtenerElemento(i).setMotor(this);
+                aviones.obtenerElemento(i).start();
+            } catch (Exception e) {
+            }
+
+        }
     }
 
     public Lista<Avion> getAviones() {
@@ -55,5 +67,48 @@ public class MotorSimulacion {
     public Lista<Log> getLogs() {
         return logs;
     }
-    
+
+    public boolean contactarEstacion(Avion avion, int idEstacionNumero) {
+        int indice = buscarPorId(idEstacionNumero, estacionesControl);
+        try {
+            EstacionControl estacion = estacionesControl.obtenerElemento(indice);
+            estacion.setMotor(this);
+            estacion.contactarAvion(avion);
+            avion.setEstacionControl(estacion);
+            return  true;
+        } catch (ListaException e) {
+            JOptionPane.showMessageDialog(null,"No existe ninguna estación de control con ese id","Error",JOptionPane.WARNING_MESSAGE);
+            return false;
+        } catch( Exception e){
+            JOptionPane.showMessageDialog(null,"Esa estacion de control no puede contactar más aviones","Error",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+
+    public int buscarPorId(int id, Lista lista) {
+
+        for (int i = 0; i < lista.obtenerLongitud(); i++) {
+
+            try {
+                if(lista.obtenerElemento(i) instanceof Avion){
+                    if(((Avion) lista.obtenerElemento(i)).getID() == id){
+                        return i;
+                    };
+                }else if(lista.obtenerElemento(i) instanceof EstacionControl){
+                    if(((EstacionControl)lista.obtenerElemento(i)).getID() == id){
+                        return i;
+                    };
+                }
+            } catch (ListaException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return -1;
+
+    }
+
+    public void actualizarCombobox() {
+        principal.mostrarComboBox();
+    }
 }

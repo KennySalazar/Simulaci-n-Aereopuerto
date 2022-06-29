@@ -7,14 +7,12 @@ package backend;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.ListaException;
 import backend.instalaciones.EstacionControl;
-import enums.TipoAvion;
 
 import java.util.Random;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import ui.cuadro.avion.AvionCuadro;
+
+import javax.swing.*;
 
 /**
  * @author Kenny
@@ -29,6 +27,7 @@ public class Avion extends Thread {
     private AvionCuadro cuadro;
     private int cantidadPasejeros;
     private int porcentajeGasolina;
+    private MotorSimulacion motor;
     Random rd = new Random();
 
     private static int tiempoDespegue;
@@ -92,6 +91,10 @@ public class Avion extends Thread {
 
     }
 
+    public void setCuadro(AvionCuadro cuadro) {
+        this.cuadro = cuadro;
+    }
+
     public double getPorcentajeGasolina() {
         return porcentajeGasolina;
     }
@@ -107,11 +110,21 @@ public class Avion extends Thread {
     public void solicitarPistaAterrizaje() {
 
         combustibleActual = combustible;
-
         int porcentajeContactarEstacion = 95;
-        while (combustibleActual > 0) {
+        int porcentajeAnterior = 100;
+//        mostrarCombustible();
+
+        while (combustibleActual >= 0) {
             try {
                 porcentajeGasolina = (combustibleActual * 100 / combustible);
+                if (porcentajeAnterior != porcentajeGasolina) {
+                    porcentajeAnterior = porcentajeGasolina;
+                    if (porcentajeGasolina == 25) {
+                        JOptionPane.showMessageDialog(null,"El avion con id " + ID + " le queda 25% de combustible", "Emergencia!", JOptionPane.WARNING_MESSAGE);
+                        cuadro.alertar();
+                    }
+//                    mostrarCombustible();
+                }
                 mostrarCombustible();
                 Thread.sleep(Avion.tiempoGastoCombustible);
 
@@ -120,26 +133,65 @@ public class Avion extends Thread {
             }
             combustibleActual--;
 
-            if (porcentajeGasolina <= porcentajeContactarEstacion && porcentajeContactarEstacion != 0) {
-                
+            if (porcentajeGasolina <= porcentajeContactarEstacion && porcentajeContactarEstacion != 0 && estacionControl == null) {
+
                 contactarEstacion();
                 porcentajeContactarEstacion -= 5;
             }
-            
+
         }
         explotar();
     }
 
     public void mostrarCombustible() {
-        System.out.println("COMBUSTIBLE: " + combustibleActual + "," + porcentajeGasolina + "%");
+//        System.out.println("COMBUSTIBLE: " + combustibleActual + "," + porcentajeGasolina + "%");
+        cuadro.actualizarElementos();
     }
 
     public void contactarEstacion() {
-        System.out.println("CONTACTANDO ESTACION........");
+        String idEstacion = JOptionPane.showInputDialog("El avion con id " + ID + " esta intentando contactar con una estación de control, si alguna estación está libre, por favor ingresar su id");
+        try{
+        if(idEstacion != null || idEstacion.equals("")) {
+            int idEstacionNumero = Integer.parseInt(idEstacion);
+            System.out.println(idEstacionNumero);
+            if (motor.contactarEstacion(this, idEstacionNumero)) {
+                cuadro.desplegarEstacionContacto();
+                cuadro.actualizarElementos();
+            }
+        }
+
+        }catch(Exception e){
+
+        }
     }
+
+    public void setEstacionControl(EstacionControl estacionControl) {
+        this.estacionControl = estacionControl;
+    }
+
 
     public void explotar() {
-        System.out.println("TE HAS QUEDADO SIN COMBUSTIBLE");
+        cuadro.borrarAvion();
+        cuadro = null;
+        try {
+            motor.getAviones().borrarElemento(this);
+            estacionControl.eliminarAvion(this);
+            JOptionPane.showMessageDialog(null,"El avion con id " + ID + " ha explotado");
+        } catch (ListaException e) {
+            e.printStackTrace();
+        }
     }
 
+    public void setMotor(MotorSimulacion motor) {
+        this.motor = motor;
+    }
 }
+
+/*101,pequeño,1000
+102,grande,4000
+103,mediano,2500
+104,mediano,1500
+105,pequeño,100
+106,grande,500
+107,mediano,600
+108,grande,3000*/

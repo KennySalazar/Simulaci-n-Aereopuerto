@@ -28,8 +28,4 @@ public class AvionVolandoCuadro extends AvionCuadro {
         setBackground(new Color(30, 229, 232));
     }
 
-    @Override
-    public void actualizarElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

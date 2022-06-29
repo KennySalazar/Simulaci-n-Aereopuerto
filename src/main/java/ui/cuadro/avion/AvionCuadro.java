@@ -81,18 +81,23 @@ public class AvionCuadro extends Cuadro implements Posicionable {
 
     public void desplegarTextoCombustible() {
         galonesCombustible.setFont(fuente);
-        galonesCombustible.setText("Combustible: " + avion.getCombustibleActual() + ", " + Math.round(avion.getPorcentajeGasolina() * 100) + "%");
+        galonesCombustible.setText("Combustible: " + avion.getCombustibleActual() + ", " + avion.getPorcentajeGasolina() + "%");
     }
 
 
     public void ponerToolTips() {
         super.ponerToolTips(avion.getID());
         toolTipTexto += avion.getTipo() + " - gas: " + avion.getCombustibleActual();
-        toolTipTexto += (avion.getEstacionControl() == null) ? " - sin contactar" : " - contactando " + avion.getEstacionControl().getID();
+        toolTipTexto += (avion.getEstacionControl() == null) ? " - sin contactar" : " - contactando estacion id: " + avion.getEstacionControl().getID();
     }
 
     @Override
     public void actualizarElementos() {
+        galonesCombustible.setText("Combustible: " + avion.getCombustibleActual() + ", " + avion.getPorcentajeGasolina() + "%");
+        ponerToolTips();
+        setToolTipText(toolTipTexto);
+        revalidate();
+        repaint();
     }
 
     public void desplegarEstacionContacto() {
@@ -100,4 +105,17 @@ public class AvionCuadro extends Cuadro implements Posicionable {
         String texto = (avion.getEstacionControl() == null) ? "Sin estación contactada" : "Estación ID: " + avion.getEstacionControl().getID() + " contactada";
         estacionContacto.setText(texto);
     }
+
+    public void alertar() {
+        galonesCombustible.setForeground(new Color(241, 62, 62));
+    }
+
+    public void borrarAvion() {
+        setToolTipText("");
+        removeAll();
+        revalidate();
+        repaint();
+        this.avion = null;
+    }
+
 }

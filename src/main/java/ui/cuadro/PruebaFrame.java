@@ -78,9 +78,9 @@ public class PruebaFrame {
         jf.revalidate();
         jf.repaint();*/
         
-        /*Avion avion = new Avion(11, "mediano", 100);
+        Avion avion = new Avion(11, "mediano", 500);
         Avion.setTiempoGastoCombustible(1000);
-        avion.start();*/
+        avion.start();
         
         /*PistaAterrizaje pa = new PistaAterrizaje(11, 3);
         PistaAterrizaje.setTiempoAterrizaje(10000);
@@ -90,9 +90,9 @@ public class PruebaFrame {
         EstacionMantenimiento.setTiempoMantenimiento(3000);
         em.start();*/
         
-        EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
-        EstacionDesabordaje.setTiempoDesabordar(3000);
-        ed.start();
+//        EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
+//        EstacionDesabordaje.setTiempoDesabordar(3000);
+//        ed.start();
         
       
     }

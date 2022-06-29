@@ -99,4 +99,11 @@ public class Lista<T> implements Serializable{
 
         return actual;
     }
+
+    public void borrarElemento(T elemento) throws ListaException {
+
+        int i = obtenerIndice(elemento);
+        eliminarPorIndice(i);
+
+    }
 }
