@@ -9,6 +9,8 @@ import ui.cuadro.avion.AvionVolandoCuadro;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.cuadro.avion.AvionCuadro;
 import ui.cuadro.avion.AvionDespegueCuadro;
 import ui.cuadro.instalacion.EstacionDesbordajeCuadro;
@@ -20,7 +22,7 @@ public class PruebaFrame {
     public static void main(String[] args) {
 
         // crear frame
-        JFrame jf = new JFrame("prueba");
+        /*JFrame jf = new JFrame("prueba");
         jf.setSize(500,500);
         jf.setLayout(new FlowLayout(FlowLayout.CENTER));
         jf.setVisible(true);
@@ -74,9 +76,25 @@ public class PruebaFrame {
        
         jf.add(ecc);
         jf.revalidate();
-        jf.repaint();
+        jf.repaint();*/
         
-
+        /*Avion avion = new Avion(11, "mediano", 100);
+        Avion.setTiempoGastoCombustible(1000);
+        avion.start();*/
+        
+        /*PistaAterrizaje pa = new PistaAterrizaje(11, 3);
+        PistaAterrizaje.setTiempoAterrizaje(10000);
+        pa.start();*/
+        
+        /*EstacionMantenimiento em = new EstacionMantenimiento(22, 3);
+        EstacionMantenimiento.setTiempoMantenimiento(3000);
+        em.start();*/
+        
+        EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
+        EstacionDesabordaje.setTiempoDesabordar(3000);
+        ed.start();
+        
+      
     }
 
 }

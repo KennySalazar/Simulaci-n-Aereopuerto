@@ -6,6 +6,8 @@ package backend.instalaciones;
 
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.ListaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**
@@ -15,21 +17,27 @@ import ui.cuadro.instalacion.InstalacionCuadro;
 public class PistaAterrizaje extends InstalacionConEspera {
 
     private static int tiempoAterrizaje;
+    
     private String ocupados;
+    private int tiempoAterrizajeActual;
 
     public PistaAterrizaje(int ID, int cantidad) {
         super(ID, cantidad);
         tiempoFaltante = (tiempoAterrizaje/1000) + "s";
+       
     }
 
     @Override
     public void run() {
-
+        mostrarAterrizaje();
     }
 
     public static void setTiempoAterrizaje(int nuevoTiempoAterrizaje) {
-        tiempoAterrizaje = nuevoTiempoAterrizaje;
+        tiempoAterrizaje = nuevoTiempoAterrizaje / 1000;
+        
     }
+    
+    
      @Override
     public void crearLista(Lista lineas, Lista elementos){
           for (int i = 0; i < lineas.obtenerLongitud(); i++) {
@@ -44,5 +52,28 @@ public class PistaAterrizaje extends InstalacionConEspera {
         }
         
         
+    }
+    
+    public void mostrarAterrizaje(){
+        tiempoAterrizajeActual = tiempoAterrizaje;
+        while(tiempoAterrizajeActual > 0){
+            
+            try {
+                mostrarTiempoAterrizaje();
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+               ex.printStackTrace();
+            }
+            tiempoAterrizajeActual--;
+        }
+        aterrizarHecho();
+    }
+    
+    public void aterrizarHecho(){
+        System.out.println("EL AVION ATERRIZO.");
+    }
+    
+    public void mostrarTiempoAterrizaje(){
+        System.out.println("El tiempo faltante para aterrizar: " + tiempoAterrizajeActual + "s");
     }
 }

@@ -10,8 +10,10 @@ package enums;
  */
 public enum TipoAvion {
     
-    pequeño,
-    mediano,
-    grande
+  volando,
+  enTierra
+  //private Estado estado;//volando o en tierra
+  
+  //if(Estado.enTierra.equals(estado)
     
 }

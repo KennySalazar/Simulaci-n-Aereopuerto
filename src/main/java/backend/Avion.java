@@ -10,6 +10,9 @@ import backend.instalaciones.EstacionControl;
 import enums.TipoAvion;
 
 import java.util.Random;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ui.cuadro.avion.AvionCuadro;
 
@@ -17,6 +20,7 @@ import ui.cuadro.avion.AvionCuadro;
  * @author Kenny
  */
 public class Avion extends Thread {
+
     private int ID;
     private String tipo;
     private int combustible;
@@ -24,7 +28,7 @@ public class Avion extends Thread {
     private EstacionControl estacionControl;
     private AvionCuadro cuadro;
     private int cantidadPasejeros;
-    private double porcentajeGasolina;
+    private int porcentajeGasolina;
     Random rd = new Random();
 
     private static int tiempoDespegue;
@@ -43,7 +47,7 @@ public class Avion extends Thread {
         } else {
             cantidadPasejeros = rd.nextInt(5) + 5;
         }
-        porcentajeGasolina = 1;
+        porcentajeGasolina = 100;
         combustibleActual = combustible;
     }
 
@@ -53,7 +57,9 @@ public class Avion extends Thread {
 
     @Override
     public void run() {
+
         //LOGICA DE COMO VAYA PERDIENDO LOS GALONES DE GASOLINE, ASI VAYA SOLICITANDO COMUNICARSE CON LA EC
+        solicitarPistaAterrizaje();
     }
 
     public String getTipo() {
@@ -71,21 +77,19 @@ public class Avion extends Thread {
     public int getID() {
         return ID;
     }
-    
-    
-    public void crearLista(Lista lineas, Lista elementos){
-          for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+
+    public void crearLista(Lista lineas, Lista elementos) {
+        for (int i = 0; i < lineas.obtenerLongitud(); i++) {
             try {
-                String[] separador = ((String)lineas.obtenerElemento(i)).split(",");
-                Avion avion = new Avion(Integer.parseInt(separador[0]),separador[1], Integer.parseInt(separador[2]));
+                String[] separador = ((String) lineas.obtenerElemento(i)).split(",");
+                Avion avion = new Avion(Integer.parseInt(separador[0]), separador[1], Integer.parseInt(separador[2]));
                 elementos.agregar(avion);
 
             } catch (ListaException ex) {
 
             }
         }
-        
-        
+
     }
 
     public double getPorcentajeGasolina() {
@@ -98,6 +102,44 @@ public class Avion extends Thread {
 
     public EstacionControl getEstacionControl() {
         return estacionControl;
+    }
+
+    public void solicitarPistaAterrizaje() {
+
+        combustibleActual = combustible;
+
+        int porcentajeContactarEstacion = 95;
+        while (combustibleActual > 0) {
+            try {
+                porcentajeGasolina = (combustibleActual * 100 / combustible);
+                mostrarCombustible();
+                Thread.sleep(Avion.tiempoGastoCombustible);
+
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            combustibleActual--;
+
+            if (porcentajeGasolina <= porcentajeContactarEstacion && porcentajeContactarEstacion != 0) {
+                
+                contactarEstacion();
+                porcentajeContactarEstacion -= 5;
+            }
+            
+        }
+        explotar();
+    }
+
+    public void mostrarCombustible() {
+        System.out.println("COMBUSTIBLE: " + combustibleActual + "," + porcentajeGasolina + "%");
+    }
+
+    public void contactarEstacion() {
+        System.out.println("CONTACTANDO ESTACION........");
+    }
+
+    public void explotar() {
+        System.out.println("TE HAS QUEDADO SIN COMBUSTIBLE");
     }
 
 }
