@@ -27,6 +27,7 @@ public class Avion extends Thread {
     private AvionCuadro cuadro;
     private int cantidadPasejeros;
     private int porcentajeGasolina;
+    private String estado;
     private MotorSimulacion motor;
     Random rd = new Random();
 
@@ -48,6 +49,7 @@ public class Avion extends Thread {
         }
         porcentajeGasolina = 100;
         combustibleActual = combustible;
+        estado = "Volando..";
     }
 
     public static void setTiempoGastoCombustible(int nuevoTiempoGastoCombustible) {
@@ -57,7 +59,6 @@ public class Avion extends Thread {
     @Override
     public void run() {
 
-        //LOGICA DE COMO VAYA PERDIENDO LOS GALONES DE GASOLINE, ASI VAYA SOLICITANDO COMUNICARSE CON LA EC
         solicitarPistaAterrizaje();
     }
 
@@ -117,6 +118,7 @@ public class Avion extends Thread {
         while (combustibleActual >= 0) {
             try {
                 porcentajeGasolina = (combustibleActual * 100 / combustible);
+                mostrarCombustible();
                 if (porcentajeAnterior != porcentajeGasolina) {
                     porcentajeAnterior = porcentajeGasolina;
                     if (porcentajeGasolina == 25) {
@@ -125,7 +127,6 @@ public class Avion extends Thread {
                     }
 //                    mostrarCombustible();
                 }
-                mostrarCombustible();
                 Thread.sleep(Avion.tiempoGastoCombustible);
 
             } catch (InterruptedException ex) {
@@ -185,7 +186,19 @@ public class Avion extends Thread {
     public void setMotor(MotorSimulacion motor) {
         this.motor = motor;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    
 }
+
+
 
 /*101,pequeño,1000
 102,grande,4000

@@ -22,7 +22,7 @@ public class PruebaFrame {
     public static void main(String[] args) {
 
         // crear frame
-        /*JFrame jf = new JFrame("prueba");
+        JFrame jf = new JFrame("prueba");
         jf.setSize(500,500);
         jf.setLayout(new FlowLayout(FlowLayout.CENTER));
         jf.setVisible(true);
@@ -45,7 +45,7 @@ public class PruebaFrame {
         jf.revalidate();
         jf.repaint();
         
-        
+        /*
         PistaAterrizaje pA = new PistaAterrizaje(22, 6);
         PistaAterrizajeCuadro pac = new PistaAterrizajeCuadro(pA);
         pac.posicionarElementos(250, 250);
@@ -76,11 +76,11 @@ public class PruebaFrame {
        
         jf.add(ecc);
         jf.revalidate();
-        jf.repaint();*/
+        jf.repaint();
         
         Avion avion = new Avion(11, "mediano", 500);
         Avion.setTiempoGastoCombustible(1000);
-        avion.start();
+        avion.start();*/
         
         /*PistaAterrizaje pa = new PistaAterrizaje(11, 3);
         PistaAterrizaje.setTiempoAterrizaje(10000);

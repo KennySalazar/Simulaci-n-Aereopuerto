@@ -23,6 +23,7 @@ public class AvionCuadro extends Cuadro implements Posicionable {
     protected JLabel cantidadPasajeros;
     protected JLabel galonesCombustible;
     private JLabel estacionContacto;
+    private JLabel estado;
     protected Avion avion;
 
     public AvionCuadro(Avion avion) {
@@ -31,6 +32,7 @@ public class AvionCuadro extends Cuadro implements Posicionable {
         cantidadPasajeros = new JLabel();
         galonesCombustible = new JLabel();
         estacionContacto = new JLabel();
+        estado = new JLabel();
 
     }
 
@@ -47,6 +49,7 @@ public class AvionCuadro extends Cuadro implements Posicionable {
             desplegarTextoCantidadPasajeros();
             desplegarTextoCombustible();
             desplegarEstacionContacto();
+            desplegarEstado();
 
             // añadiendo componentes del cuadro
             JPanel textos = new JPanel();
@@ -56,6 +59,7 @@ public class AvionCuadro extends Cuadro implements Posicionable {
             textos.add(ID);
             textos.add(estacionContacto);
             textos.add(cantidadPasajeros);
+            textos.add(estado);
 
             Dimension tamaño = textos.getPreferredSize();
             textos.setBounds(3, 3, tamaño.width, tamaño.height);
@@ -82,6 +86,11 @@ public class AvionCuadro extends Cuadro implements Posicionable {
     public void desplegarTextoCombustible() {
         galonesCombustible.setFont(fuente);
         galonesCombustible.setText("Combustible: " + avion.getCombustibleActual() + ", " + avion.getPorcentajeGasolina() + "%");
+    }
+    
+    public void desplegarEstado(){
+        estado.setFont(fuente);
+        estado.setText(avion.getEstado());
     }
 
 

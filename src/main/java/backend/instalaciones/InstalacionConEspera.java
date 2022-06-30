@@ -5,7 +5,7 @@
 package backend.instalaciones;
 
 import backend.Avion;
-import backend.estructuras.Cola;
+import backend.estructuras.lista.Cola;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**

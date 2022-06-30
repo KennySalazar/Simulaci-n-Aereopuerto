@@ -9,6 +9,8 @@ import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.ListaException;
 import backend.instalaciones.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.cuadro.avion.AvionCuadro;
 import ui.cuadro.avion.AvionVolandoCuadro;
 
@@ -90,6 +92,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Pistas de Atarrizaje");
 
         jComboBoxAvionesContactados.setEnabled(false);
+        jComboBoxAvionesContactados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxAvionesContactadosActionPerformed(evt);
+            }
+        });
 
         jComboBoxEstacionC.setEnabled(false);
         jComboBoxEstacionC.addActionListener(new java.awt.event.ActionListener() {
@@ -280,8 +287,16 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxPistaAActionPerformed
 
     private void jComboBoxEstacionCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstacionCActionPerformed
-
+        try {
+            mostrarAvionesSegunEstacionSeleccionada();
+        } catch (ListaException ex) {
+           
+        }
     }//GEN-LAST:event_jComboBoxEstacionCActionPerformed
+
+    private void jComboBoxAvionesContactadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAvionesContactadosActionPerformed
+        
+    }//GEN-LAST:event_jComboBoxAvionesContactadosActionPerformed
 
     public void abrirConfiguracion() {
         Configuracion configuracion = new Configuracion(this);
@@ -313,7 +328,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void mostrarAvionesSegunEstacionSeleccionada() throws ListaException {
-
+  
         int selectedIndex = jComboBoxEstacionC.getSelectedIndex();
         EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndex);
         mostrarComboBoxAviones(estacion);
