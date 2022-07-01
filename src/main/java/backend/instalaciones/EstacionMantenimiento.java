@@ -5,8 +5,11 @@
 package backend.instalaciones;
 
 import backend.Avion;
+import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
+import backend.hilos.HiloEstacionMantenimiento;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,21 +20,21 @@ public class EstacionMantenimiento extends InstalacionConEspera {
     private static int tiempoMantenimiento;
     private int tiempoFinal;
     private int tiempoFinalActual;
+    private MotorSimulacion motor;
+
     public EstacionMantenimiento(int ID, int cantidad) {
         super(ID, cantidad);
         tiempoFaltante = "0s";
     }
 
-    public void calcularTiempo() {
-        avionActivo = new Avion(11, "pequeño", 3);//DEBEMOS QUITAR EST
-        tiempoFinal = (avionActivo.getCantidadPasejeros() * EstacionMantenimiento.tiempoMantenimiento)/1000;
-        tiempoFaltante = tiempoFinal + "s";
-        tiempoFinalActual = tiempoFinal;
+    public void setMotor(MotorSimulacion motor) {
+        this.motor = motor;
     }
 
-    @Override
-    public void run() {
-        mostrarMantenimiento();
+    public void calcularTiempo() {
+        tiempoFinal = Math.round((avionActivo.getCantidadPasejeros() * EstacionMantenimiento.tiempoMantenimiento) / 1000);
+        tiempoFaltante = tiempoFinal + "s";
+        tiempoFinalActual = tiempoFinal;
     }
 
     public static void setTiempoMantenimiento(int nuevoTiempoMantenimiento) {
@@ -54,27 +57,58 @@ public class EstacionMantenimiento extends InstalacionConEspera {
 
     }
 
-    public void mostrarMantenimiento() {
-        calcularTiempo();
-        while (tiempoFinalActual > 0) {
-
-            try {
-                mostrarTiempoMantenimiento();
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            tiempoFinalActual--;
-        }
-        terminarMantenimiento();
+    public void crearHilo() {
+        HiloEstacionMantenimiento hilo = new HiloEstacionMantenimiento(this);
+        hilo.start();
     }
 
-    public void mostrarTiempoMantenimiento() {
-        System.out.println("El tiempo faltante para el mantenimiento es de: " + tiempoFinalActual + "s");
+    public void agregarAColaAvion(Avion avion) {
+        try {
+            if (avionesEnEspera.esVacia() && avionActivo == null) {
+                avionActivo = avion;
+                avion.contactarEstacionMantenimiento(this);
+                crearHilo();
+            } else if (!avionesEnEspera.esLlena()) {
+                avionesEnEspera.encolarElemento(avion);
+                cuadro.actualizarElementos();
+                avion.contactarEstacionMantenimiento(this);
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void siguienteEnCola() throws EstructuraException {
+        try {
+            avionActivo = avionesEnEspera.desencolar();
+            motor.estacionMantenimientoDisponible();
+            cuadro.actualizarElementos();
+            crearHilo();
+        } catch (NullPointerException ex) {
+        }
     }
 
     public void terminarMantenimiento() {
-        System.out.println("MANTENIMIENTO TERMINADO");
+           JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " a terminado su mantenimiento, sera enviado a zona de despegue");
+           motor.enviarAvionADespegue(avionActivo);
+           try {
+            siguienteEnCola();
+        } catch (EstructuraException e) {
+            System.out.println("Ya no hay aviones en cola");
+            avionActivo = null;
+            cuadro.actualizarElementos();
+        }
+    }
+
+    public static int getTiempoMantenimiento() {
+        return tiempoMantenimiento;
+    }
+
+    public int getTiempoFinalActual() {
+        return tiempoFinalActual;
+    }
+
+    public void setTiempoFinalActual(int tiempoFinalActual) {
+        this.tiempoFinalActual = tiempoFinalActual;
     }
 
 }

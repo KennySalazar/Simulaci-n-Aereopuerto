@@ -24,7 +24,6 @@ public class HiloPistaAterrizaje extends Thread{
         while (pista.getTiempoActual() >= 0) {
 
             try {
-                pista.getCuadro().actualizarElementos();
                 pista.mostrarTiempoAterrizaje();
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
@@ -32,6 +31,6 @@ public class HiloPistaAterrizaje extends Thread{
             }
             pista.setTiempoActual(pista.getTiempoActual() - 1);
         }
-        pista.aterrizarHecho();
+        pista.aterrizarHecho(false);
     }
 }

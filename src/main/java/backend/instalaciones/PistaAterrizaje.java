@@ -52,9 +52,15 @@ public class PistaAterrizaje extends InstalacionConEspera {
         hilo.start();
     }
 
-    public void aterrizarHecho() {
-        avionActivo.aterrizar();
-        if (motor.encontrarEstacionDesabordaje() != null) {
+    public void aterrizarHecho(boolean esperando) {
+        if (!esperando) {
+            avionActivo.aterrizar();
+            JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " terminó su aterrizaje");
+        }
+        EstacionDesabordaje estacionDesabordaje = motor.encontrarEstacionDesabordaje(this);
+        if (estacionDesabordaje != null) {
+            JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " será enviado a la estacion de desabordaje con id: " + estacionDesabordaje.getID());
+            estacionDesabordaje.agregarAColaAvion(avionActivo);
             try {
                 siguienteEnCola();
             } catch (EstructuraException e) {
@@ -62,12 +68,13 @@ public class PistaAterrizaje extends InstalacionConEspera {
                 avionActivo = null;
                 cuadro.actualizarElementos();
             }
-        }else {
-            JOptionPane.showMessageDialog(null, "No hay espacion en ninguna estación de desabordaje, cuando se desocupe alguna será enviado hacia allá.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay espacio en ninguna estación de desabordaje, cuando se desocupe alguna el avión con id: " + avionActivo.getID() + " será enviado hacia allá.");
         }
     }
 
     public void siguienteEnCola() throws EstructuraException {
+        motor.actualizarCombobox();
         avionActivo = avionesEnEspera.desencolar();
         cuadro.actualizarElementos();
         crearHilo();

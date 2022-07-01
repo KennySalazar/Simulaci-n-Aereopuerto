@@ -37,7 +37,8 @@ public class Cuadro extends JPanel {
 
     public void cambiarTamaño(){
         Image nuevaImagen = icon.getImage();
-        Image imagenNuevoTamaño = nuevaImagen.getScaledInstance(imagen.getHeight(), imagen.getHeight(),Image.SCALE_SMOOTH);
+        int tamañoMenor =(imagen.getHeight()>imagen.getWidth())? (imagen.getWidth()):imagen.getHeight(); 
+        Image imagenNuevoTamaño = nuevaImagen.getScaledInstance(tamañoMenor,tamañoMenor,Image.SCALE_SMOOTH);
         ImageIcon iconoEscalado =  new ImageIcon(imagenNuevoTamaño);
         imagen.setIcon(iconoEscalado);
     }

@@ -18,7 +18,7 @@ import javax.swing.*;
 public class Principal extends javax.swing.JFrame {
 
     MotorSimulacion motor;
-    Aereopuerto aereopuerto;
+    Aeropuerto aereopuerto;
 
     /**
      * Creates new form Principal
@@ -341,7 +341,7 @@ public class Principal extends javax.swing.JFrame {
         mostrarComboBox();
         jButtonAterrizar.setEnabled(true);
 
-        aereopuerto = new Aereopuerto(motor);
+        aereopuerto = new Aeropuerto(motor);
         aereopuerto.setBounds(0, 0, jPanelAereopuerto.getWidth(), jPanelAereopuerto.getHeight());
         jPanelAereopuerto.add(aereopuerto);
         aereopuerto.iniciarAereopuerto();

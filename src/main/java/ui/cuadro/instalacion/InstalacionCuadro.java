@@ -5,9 +5,8 @@
 package ui.cuadro.instalacion;
 
 import Interfaces.Posicionable;
-import backend.instalaciones.Instalacion;
 import backend.instalaciones.InstalacionConEspera;
-import java.awt.Color;
+
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -20,16 +19,16 @@ import ui.cuadro.Cuadro;
  */
 public class InstalacionCuadro extends Cuadro implements Posicionable {
 
-    private JLabel avionesEnEspera;
-    private JLabel tiempoPorAvion;
-    private JLabel infoAvion;
+    protected JLabel avionesEnEspera;
+    protected JLabel tiempoLabel;
+    protected JLabel infoAvion;
 
     protected InstalacionConEspera instalacionEspera;
 
     public InstalacionCuadro(String path) {
         super(path);
         avionesEnEspera = new JLabel();
-        tiempoPorAvion = new JLabel();
+        tiempoLabel = new JLabel();
         infoAvion = new JLabel();
 
     }
@@ -42,14 +41,13 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
         desplegarTextoID(instalacionEspera.getID());
         desplegarTextoAvionesEnEspera();
         desplegarInfoAvion();
-        tiempoPorAvion.setFont(fuente);
-        tiempoPorAvion.setText("|");
+        desplegarTextoTiempo();
 
         JPanel textos = new JPanel();
         textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
         textos.add(ID);
         textos.add(avionesEnEspera);
-        textos.add(tiempoPorAvion);
+        textos.add(tiempoLabel);
         textos.add(infoAvion);
 
         Dimension tamaño = textos.getPreferredSize();
@@ -68,7 +66,7 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
     @Override
     public void actualizarElementos() {
         desplegarTextoAvionesEnEspera();
-        desplegarTextoTiempoFaltante();
+        desplegarTextoTiempo();
         desplegarInfoAvion();
         ponerToolTips();
         setToolTipText(toolTipTexto);
@@ -78,7 +76,7 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
 
     public void ponerToolTips() {
         super.ponerToolTips(instalacionEspera.getID());
-        toolTipTexto += instalacionEspera.getOcupados() + " - " + instalacionEspera.getTiempoFaltante();
+        toolTipTexto += instalacionEspera.getOcupados();
     }
 
     public void desplegarTextoAvionesEnEspera() {
@@ -88,13 +86,11 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
 
     }
 
-    public void desplegarTextoTiempoFaltante() {
-        tiempoPorAvion.setFont(fuente);
-        tiempoPorAvion.setText((instalacionEspera.getAvionActivo() != null) ? "Tiempo faltante: " + instalacionEspera.getTiempoFaltante() : "Tiempo en aterrizar: " + instalacionEspera.getTiempoFaltante());
+    public void desplegarTextoTiempo() {
+
     }
 
     public void desplegarInfoAvion() {
         infoAvion.setFont(fuente);
-        infoAvion.setText((instalacionEspera.getAvionActivo() != null) ? "Avion aterrizando con id: " + instalacionEspera.getAvionActivo().getID() : "Pista vacía");
     }
 }

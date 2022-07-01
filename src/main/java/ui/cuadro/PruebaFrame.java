@@ -86,14 +86,16 @@ public class PruebaFrame {
         PistaAterrizaje.setTiempoAterrizaje(10000);
         pa.start();*/
         
-        /*EstacionMantenimiento em = new EstacionMantenimiento(22, 3);
-        EstacionMantenimiento.setTiempoMantenimiento(3000);
-        em.start();*/
+        EstacionMantenimiento em = new EstacionMantenimiento(22, 3);
+        EstacionMantenimiento.setTiempoMantenimiento(1000);
+        em.agregarAColaAvion(new Avion(2,"pequeño", 2000));
+        em.agregarAColaAvion(new Avion(5, "pequeño", 1000));
         
-        EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
+        
+        /*EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
         EstacionDesabordaje.setTiempoDesabordar(350);
         ed.agregarAColaAvion(new Avion(1,"mediano",5000));
-        ed.agregarAColaAvion(new Avion(2,"mediano",5000));
+        ed.agregarAColaAvion(new Avion(2,"mediano",5000));*/
 
         
       

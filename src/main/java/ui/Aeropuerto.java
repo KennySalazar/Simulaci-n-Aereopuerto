@@ -18,19 +18,20 @@ import java.awt.*;
  *
  * @author Kenny
  */
-public class Aereopuerto extends JPanel {
+public class Aeropuerto extends JPanel {
+
     private Lista<AvionDespegueCuadro> avionesDespegue;
     private Lista<AvionVolandoCuadro> avionesVolando;
-    private Lista<EstacionControlCuadro > estacionesControl;
-    private Lista<EstacionDesbordajeCuadro > estacionesDesbordaje;
+    private Lista<EstacionControlCuadro> estacionesControl;
+    private Lista<EstacionDesbordajeCuadro> estacionesDesbordaje;
     private Lista<EstacionMantenimientoCuadro> estacionesMantenimiento;
-    private Lista<PistaAterrizajeCuadro > pistasAterrizaje;
+    private Lista<PistaAterrizajeCuadro> pistasAterrizaje;
     private int anchoCuadro;
     private int altoCuadro;
     private MotorSimulacion motor;
     private int mayorLongitud;
-
-    public Aereopuerto(MotorSimulacion motor) {
+    
+    public Aeropuerto(MotorSimulacion motor) {
         this.avionesDespegue = new Lista();
         this.avionesVolando = new Lista();
         this.estacionesControl = new Lista();
@@ -39,7 +40,7 @@ public class Aereopuerto extends JPanel {
         this.pistasAterrizaje = new Lista();
         this.motor = motor;
     }
-
+    
     public void obtenerMayorLongitud() {
         mayorLongitud = motor.getAviones().obtenerLongitud();
         setMayorLongitud(motor.getEstacionesControl().obtenerLongitud());
@@ -47,13 +48,13 @@ public class Aereopuerto extends JPanel {
         setMayorLongitud(motor.getEstacionesMantenimiento().obtenerLongitud());
         setMayorLongitud(motor.getEstacionesDesabordaje().obtenerLongitud());
     }
-
+    
     public void setMayorLongitud(int longitud) {
-        if(longitud > mayorLongitud){
+        if (longitud > mayorLongitud) {
             mayorLongitud = longitud;
         }
     }
-
+    
     public void iniciarAereopuerto() {
         obtenerMayorLongitud();
         setLayout(new GridLayout(6, mayorLongitud));
@@ -68,7 +69,7 @@ public class Aereopuerto extends JPanel {
         Border border = BorderFactory.createTitledBorder("Aereopuerto");
         setBorder(border);
     }
-
+    
     public void desplegarAvionesVolando() {
         for (int i = 0; i < mayorLongitud; i++) {
             try {
@@ -84,7 +85,7 @@ public class Aereopuerto extends JPanel {
             }
         }
     }
-
+    
     public void desplegarEstacionesControl() {
         for (int i = 0; i < mayorLongitud; i++) {
             try {
@@ -100,7 +101,7 @@ public class Aereopuerto extends JPanel {
             }
         }
     }
-
+    
     public void desplegarPistasAterrizaje() {
         for (int i = 0; i < mayorLongitud; i++) {
             try {
@@ -116,8 +117,9 @@ public class Aereopuerto extends JPanel {
                 panel.setOpaque(false);
             }
         }
+        motor.crearPistasEspera();
     }
-
+    
     public void desplegarEstacionesDesabordaje() {
         for (int i = 0; i < mayorLongitud; i++) {
             try {
@@ -126,14 +128,16 @@ public class Aereopuerto extends JPanel {
                 add(desabordajeCuadro);
                 estacionesDesbordaje.agregar(desabordajeCuadro);
                 motor.getEstacionesDesabordaje().obtenerElemento(i).setCuadro(desabordajeCuadro);
+                motor.getEstacionesDesabordaje().obtenerElemento(i).setMotor(motor);
             } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
                 panel.setOpaque(false);
             }
         }
+        motor.crearEstacionDesabordajeEspera();
     }
-
+    
     public void desplegarEstacionMantenimiento() {
         for (int i = 0; i < mayorLongitud; i++) {
             try {
@@ -142,6 +146,7 @@ public class Aereopuerto extends JPanel {
                 add(mantenimiento);
                 estacionesMantenimiento.agregar(mantenimiento);
                 motor.getEstacionesMantenimiento().obtenerElemento(i).setCuadro(mantenimiento);
+                motor.getEstacionesMantenimiento().obtenerElemento(i).setMotor(motor);
             } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
@@ -149,7 +154,7 @@ public class Aereopuerto extends JPanel {
             }
         }
     }
-
+    
     public void desplegarAvionesDespegue() {
         for (int i = 0; i < motor.getAviones().obtenerLongitud(); i++) {
             AvionDespegueCuadro avion = new AvionDespegueCuadro(null);
@@ -159,4 +164,3 @@ public class Aereopuerto extends JPanel {
         }
     }
 }
-

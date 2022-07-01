@@ -15,17 +15,17 @@ public class HiloEstacionDesabordaje extends Thread{
     }
 
     public void mostrarDesabordaje() {
-        while (estacion.getPasajerosDesabordados() > 0) {
+        while (estacion.getPasajerosDesabordados() >= 0) {
 
             try {
-                estacion.mostrarTiempoDesabordaje();
+                estacion.getCuadro().actualizarElementos();
                 Thread.sleep(estacion.getTiempoDesabordar());
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+               
             }
             estacion.setPasajerosDesabordados(estacion.getPasajerosDesabordados() - 1);
         }
-        estacion.terminarDesabordaje();
+        estacion.terminarDesabordaje(false);
     }
 
 }

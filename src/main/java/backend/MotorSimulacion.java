@@ -4,6 +4,7 @@
  */
 package backend;
 
+import backend.estructuras.lista.Cola;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
 import backend.instalaciones.*;
@@ -21,6 +22,8 @@ public class MotorSimulacion {
     private Lista<PistaAterrizaje> pistasAterrizaje;
     private Lista<EstacionDesabordaje> estacionesDesabordaje;
     private Lista<EstacionMantenimiento> estacionesMantenimiento;
+    private Cola<PistaAterrizaje> pistasEnEspera;
+    private Cola<EstacionDesabordaje> estacionEnEspera;
     private Lista<Log> logs;
     private Principal principal;
 
@@ -63,6 +66,8 @@ public class MotorSimulacion {
     public Lista<EstacionMantenimiento> getEstacionesMantenimiento() {
         return estacionesMantenimiento;
     }
+
+
 
     public Lista<Log> getLogs() {
         return logs;
@@ -118,7 +123,7 @@ public class MotorSimulacion {
         principal.mostrarComboBox();
     }
 
-    public EstacionDesabordaje encontrarEstacionDesabordaje() {
+    public EstacionDesabordaje encontrarEstacionDesabordaje(PistaAterrizaje pista) {
         for (int i = 0; i < estacionesDesabordaje.obtenerLongitud(); i++) {
             try {
                 EstacionDesabordaje estacion = estacionesDesabordaje.obtenerElemento(i);
@@ -126,6 +131,52 @@ public class MotorSimulacion {
             } catch (EstructuraException e) {
             }
         }
+        try {
+            pistasEnEspera.encolarElemento(pista);
+        } catch (EstructuraException e) {
+        }
         return null;
+    }
+    public EstacionMantenimiento encontrarEstacionMantenimiento(EstacionDesabordaje estacionD){
+         for (int i = 0; i < estacionesMantenimiento.obtenerLongitud(); i++) {
+            try {
+                EstacionMantenimiento estacionMan = estacionesMantenimiento.obtenerElemento(i);
+                if (!estacionMan.getAvionesEnEspera().esLlena()) return estacionMan;
+            } catch (EstructuraException e) {
+            }
+        }
+        try {
+            estacionEnEspera.encolarElemento(estacionD);
+        } catch (EstructuraException e) {
+        }
+        return null;
+    }
+
+    public void estacionDisponible() {
+        try {
+            PistaAterrizaje pistaEsperando = pistasEnEspera.desencolar();
+            pistaEsperando.aterrizarHecho(true);
+        } catch (EstructuraException e) {
+        }
+    }
+    
+     public void estacionMantenimientoDisponible() {
+        try {
+            EstacionDesabordaje estacionEsperando = estacionEnEspera.desencolar();
+            estacionEsperando.terminarDesabordaje(true);
+        } catch (EstructuraException e) {
+        }
+    }
+
+    public void crearPistasEspera() {
+        this.pistasEnEspera = new Cola<>(pistasAterrizaje.obtenerLongitud());
+    }
+    
+    public void crearEstacionDesabordajeEspera(){
+        this.estacionEnEspera = new Cola<>(estacionesDesabordaje.obtenerLongitud());
+    }
+
+    public void enviarAvionADespegue(Avion avion) {
+    
     }
 }

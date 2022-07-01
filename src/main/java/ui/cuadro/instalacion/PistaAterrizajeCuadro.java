@@ -4,9 +4,9 @@
  */
 package ui.cuadro.instalacion;
 
-import Interfaces.Posicionable;
 import backend.instalaciones.InstalacionConEspera;
 import backend.instalaciones.PistaAterrizaje;
+
 import java.awt.Color;
 
 /**
@@ -28,5 +28,21 @@ public class PistaAterrizajeCuadro extends InstalacionCuadro {
 
     }
 
+    @Override
+    public void ponerToolTips() {
+        super.ponerToolTips();
+        toolTipTexto +=  " - " + instalacionEspera.getTiempoFaltante();
+    }
 
+    @Override
+    public void desplegarTextoTiempo() {
+        tiempoLabel.setFont(fuente);
+        tiempoLabel.setText((instalacionEspera.getAvionActivo() != null) ? "Tiempo faltante: " + instalacionEspera.getTiempoFaltante() : "Tiempo en aterrizar: " + PistaAterrizaje.getTiempoAterrizaje() + "s");
+    }
+
+    @Override
+    public void desplegarInfoAvion() {
+        super.desplegarInfoAvion();
+        infoAvion.setText((instalacionEspera.getAvionActivo() != null) ? "Avion aterrizando con id: " + instalacionEspera.getAvionActivo().getID() : "Pista vacía");
+    }
 }

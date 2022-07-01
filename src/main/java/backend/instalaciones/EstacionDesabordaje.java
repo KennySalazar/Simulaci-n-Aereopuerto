@@ -5,27 +5,28 @@
 package backend.instalaciones;
 
 import backend.Avion;
+import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
 import backend.hilos.HiloEstacionDesabordaje;
-import backend.hilos.HiloPistaAterrizaje;
-
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 /**
- *
  * @author Kenny
  */
 public class EstacionDesabordaje extends InstalacionConEspera {
 
     private static int tiempoDesabordar;
-    private int tiempoFinal;
-    private int tiempoFinalActual;
     private int pasajerosDesabordados;
+    private MotorSimulacion motor;
 
     public EstacionDesabordaje(int ID, int cantidad) {
         super(ID, cantidad);
         tiempoFaltante = "0s";
+    }
+
+    public void setMotor(MotorSimulacion motor) {
+        this.motor = motor;
     }
 
     public static void setTiempoDesabordar(int tiempoDesabordo) {
@@ -46,8 +47,6 @@ public class EstacionDesabordaje extends InstalacionConEspera {
         }
 
     }
-
-
 
     public void crearHilo() {
         pasajerosDesabordados = avionActivo.getCantidadPasejeros();
@@ -70,28 +69,35 @@ public class EstacionDesabordaje extends InstalacionConEspera {
         }
     }
 
-    public void mostrarTiempoDesabordaje() {
-        System.out.println("Pasajeros desabordando: " + pasajerosDesabordados);
-    }
-
     public void siguienteEnCola() throws EstructuraException {
-        avionActivo = avionesEnEspera.desencolar();
-//        cuadro.actualizarElementos();
-        crearHilo();
+        try {
+            avionActivo = avionesEnEspera.desencolar();
+            motor.estacionDisponible();
+            cuadro.actualizarElementos();
+            crearHilo();
+        } catch (NullPointerException ex) {
+        }
     }
 
-    public void terminarDesabordaje() {
-//        if (motor.encontrarEstacionMantenimiento() != null) {
+    public void terminarDesabordaje(boolean esperando) {
+        if (!esperando) {
+            JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " terminó su desabordaje");
+        }
+        EstacionMantenimiento estacionMantenimiento = motor.encontrarEstacionMantenimiento(this);
+        if (estacionMantenimiento != null) {
+            JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " será enviado a la estacion de mantenimiento con id: " + estacionMantenimiento.getID());
+            estacionMantenimiento.agregarAColaAvion(avionActivo);
             try {
                 siguienteEnCola();
             } catch (EstructuraException e) {
                 System.out.println("Ya no hay aviones en cola");
                 avionActivo = null;
-//                cuadro.actualizarElementos();
+                cuadro.actualizarElementos();
             }
-//        }else {
-//            JOptionPane.showMessageDialog(null, "No hay espacion en ninguna estación de mantenimiento, cuando se desocupe alguna será enviado hacia allá.");
-//        }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay espacio en ninguna estación de mantenimiento, cuando se desocupe alguna el avión con id: " + avionActivo.getID() + " será enviado hacia allá.");
+        }
+
     }
 
     public int getPasajerosDesabordados() {
@@ -107,3 +113,9 @@ public class EstacionDesabordaje extends InstalacionConEspera {
     }
 
 }
+
+/*
+1,3
+        2,3
+        3,3
+ */

@@ -11,6 +11,7 @@ import backend.instalaciones.EstacionControl;
 import java.util.Random;
 
 import backend.instalaciones.EstacionDesabordaje;
+import backend.instalaciones.EstacionMantenimiento;
 import backend.instalaciones.PistaAterrizaje;
 import ui.cuadro.avion.AvionCuadro;
 
@@ -41,7 +42,7 @@ public class Avion extends Thread {
         this.ID = ID;
         this.tipo = tipo;
         this.combustible = combustible;
-        if (tipo.equalsIgnoreCase("pequeño")) {
+        if (tipo.equalsIgnoreCase("pequeño")||tipo.equalsIgnoreCase("pequenio") ) {
             cantidadPasejeros = rd.nextInt(5) + 5;
         } else if (tipo.equalsIgnoreCase("mediano")) {
             cantidadPasejeros = rd.nextInt(10) + 15;
@@ -119,7 +120,7 @@ public class Avion extends Thread {
 
         while (combustibleActual >= 0 && !Thread.currentThread().isInterrupted()) {
             try {
-                porcentajeGasolina = (combustibleActual * 100 / combustible);
+                porcentajeGasolina = Math.round(combustibleActual * 100 / combustible);
                 mostrarCombustible();
                 if (porcentajeAnterior != porcentajeGasolina) {
                     porcentajeAnterior = porcentajeGasolina;
@@ -208,7 +209,6 @@ public class Avion extends Thread {
     }
 
     public void aterrizar() {
-        JOptionPane.showMessageDialog(null, "El avion con id: " + ID +  " terminó su aterrizaje y será enviado al desabordaje: ");
         pista.getCuadro().actualizarElementos();
         interrupt();
     }
@@ -220,6 +220,10 @@ public class Avion extends Thread {
 
     public void contactarEstacionDesabordaje(EstacionDesabordaje estacionDesabordaje) {
 
+    }
+    
+    public void contactarEstacionMantenimiento(EstacionMantenimiento estacionMantenimiento) {
+        
     }
 }
 
