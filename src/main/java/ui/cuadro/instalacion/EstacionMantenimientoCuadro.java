@@ -27,8 +27,5 @@ public class EstacionMantenimientoCuadro extends InstalacionCuadro implements Po
 
     }
 
-    @Override
-    public void actualizarElementos() {
-    }
 
 }

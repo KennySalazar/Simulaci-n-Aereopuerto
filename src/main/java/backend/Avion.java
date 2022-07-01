@@ -5,11 +5,13 @@
 package backend;
 
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
+import backend.estructuras.lista.EstructuraException;
 import backend.instalaciones.EstacionControl;
 
 import java.util.Random;
 
+import backend.instalaciones.EstacionDesabordaje;
+import backend.instalaciones.PistaAterrizaje;
 import ui.cuadro.avion.AvionCuadro;
 
 import javax.swing.*;
@@ -29,6 +31,7 @@ public class Avion extends Thread {
     private int porcentajeGasolina;
     private String estado;
     private MotorSimulacion motor;
+    private PistaAterrizaje pista;
     Random rd = new Random();
 
     private static int tiempoDespegue;
@@ -59,7 +62,7 @@ public class Avion extends Thread {
     @Override
     public void run() {
 
-        solicitarPistaAterrizaje();
+        solicitarEstacionControl();
     }
 
     public String getTipo() {
@@ -85,7 +88,7 @@ public class Avion extends Thread {
                 Avion avion = new Avion(Integer.parseInt(separador[0]), separador[1], Integer.parseInt(separador[2]));
                 elementos.agregar(avion);
 
-            } catch (ListaException ex) {
+            } catch (EstructuraException ex) {
 
             }
         }
@@ -108,60 +111,60 @@ public class Avion extends Thread {
         return estacionControl;
     }
 
-    public void solicitarPistaAterrizaje() {
+    public void solicitarEstacionControl() {
 
         combustibleActual = combustible;
         int porcentajeContactarEstacion = 95;
         int porcentajeAnterior = 100;
-//        mostrarCombustible();
 
-        while (combustibleActual >= 0) {
+        while (combustibleActual >= 0 && !Thread.currentThread().isInterrupted()) {
             try {
                 porcentajeGasolina = (combustibleActual * 100 / combustible);
                 mostrarCombustible();
                 if (porcentajeAnterior != porcentajeGasolina) {
                     porcentajeAnterior = porcentajeGasolina;
                     if (porcentajeGasolina == 25) {
-                        JOptionPane.showMessageDialog(null,"El avion con id " + ID + " le queda 25% de combustible", "Emergencia!", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "El avion con id " + ID + " le queda 25% de combustible", "Emergencia!", JOptionPane.WARNING_MESSAGE);
                         cuadro.alertar();
                     }
-//                    mostrarCombustible();
                 }
                 Thread.sleep(Avion.tiempoGastoCombustible);
 
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+                System.out.println("hilo interrumpido");
+            } catch (NullPointerException e) {
+
             }
             combustibleActual--;
 
             if (porcentajeGasolina <= porcentajeContactarEstacion && porcentajeContactarEstacion != 0 && estacionControl == null) {
-
-                contactarEstacion();
-                porcentajeContactarEstacion -= 5;
+                if (pista == null) {
+                    contactarEstacion();
+                    porcentajeContactarEstacion -= 5;
+                }
             }
 
         }
-        explotar();
+        if(cuadro != null) explotar();
     }
 
     public void mostrarCombustible() {
-//        System.out.println("COMBUSTIBLE: " + combustibleActual + "," + porcentajeGasolina + "%");
         cuadro.actualizarElementos();
     }
 
     public void contactarEstacion() {
         String idEstacion = JOptionPane.showInputDialog("El avion con id " + ID + " esta intentando contactar con una estación de control, si alguna estación está libre, por favor ingresar su id");
-        try{
-        if(idEstacion != null || idEstacion.equals("")) {
-            int idEstacionNumero = Integer.parseInt(idEstacion);
-            System.out.println(idEstacionNumero);
-            if (motor.contactarEstacion(this, idEstacionNumero)) {
-                cuadro.desplegarEstacionContacto();
-                cuadro.actualizarElementos();
+        try {
+            if (idEstacion != null || idEstacion.equals("")) {
+                int idEstacionNumero = Integer.parseInt(idEstacion);
+                System.out.println(idEstacionNumero);
+                if (motor.contactarEstacion(this, idEstacionNumero)) {
+                    cuadro.desplegarEstacionContacto();
+                    cuadro.actualizarElementos();
+                }
             }
-        }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -172,13 +175,13 @@ public class Avion extends Thread {
 
 
     public void explotar() {
-        cuadro.borrarAvion();
-        cuadro = null;
+        borrarCuadro();
         try {
             motor.getAviones().borrarElemento(this);
-            estacionControl.eliminarAvion(this);
-            JOptionPane.showMessageDialog(null,"El avion con id " + ID + " ha explotado");
-        } catch (ListaException e) {
+            if (estacionControl != null) estacionControl.eliminarAvion(this);
+            if (pista != null) pista.eliminarAvion(this);
+            JOptionPane.showMessageDialog(null, "El avion con id " + ID + " ha explotado");
+        } catch (EstructuraException e) {
             e.printStackTrace();
         }
     }
@@ -194,8 +197,30 @@ public class Avion extends Thread {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
+
+
+    public void contactarPista(PistaAterrizaje pista) {
+        this.pista = pista;
+        estacionControl = null;
+        JOptionPane.showMessageDialog(null, "El avion con id " + ID + " fue enviado a la pista de aterrizaje con id: " + pista.getID());
+        setEstado("Esperando aterrizaje...");
+        cuadro.actualizarElementos();
+    }
+
+    public void aterrizar() {
+        JOptionPane.showMessageDialog(null, "El avion con id: " + ID +  " terminó su aterrizaje y será enviado al desabordaje: ");
+        pista.getCuadro().actualizarElementos();
+        interrupt();
+    }
+
+    public void borrarCuadro() {
+        cuadro.borrarAvion();
+        cuadro = null;
+    }
+
+    public void contactarEstacionDesabordaje(EstacionDesabordaje estacionDesabordaje) {
+
+    }
 }
 
 

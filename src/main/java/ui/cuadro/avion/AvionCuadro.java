@@ -103,6 +103,8 @@ public class AvionCuadro extends Cuadro implements Posicionable {
     @Override
     public void actualizarElementos() {
         galonesCombustible.setText("Combustible: " + avion.getCombustibleActual() + ", " + avion.getPorcentajeGasolina() + "%");
+        desplegarEstado();
+        desplegarEstacionContacto();
         ponerToolTips();
         setToolTipText(toolTipTexto);
         revalidate();

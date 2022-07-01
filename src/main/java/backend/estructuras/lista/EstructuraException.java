@@ -8,9 +8,9 @@ package backend.estructuras.lista;
  *
  * @author Kenny
  */
-public class ListaException extends Exception {
+public class EstructuraException extends Exception {
 
-    public ListaException(String string) {
+    public EstructuraException(String string) {
         super(string);
     }
 

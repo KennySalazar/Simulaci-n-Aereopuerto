@@ -22,6 +22,7 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
 
     private JLabel avionesEnEspera;
     private JLabel tiempoPorAvion;
+    private JLabel infoAvion;
 
     protected InstalacionConEspera instalacionEspera;
 
@@ -29,6 +30,7 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
         super(path);
         avionesEnEspera = new JLabel();
         tiempoPorAvion = new JLabel();
+        infoAvion = new JLabel();
 
     }
 
@@ -39,16 +41,19 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
 
         desplegarTextoID(instalacionEspera.getID());
         desplegarTextoAvionesEnEspera();
-        desplegarTextoTiempoFaltante();
+        desplegarInfoAvion();
+        tiempoPorAvion.setFont(fuente);
+        tiempoPorAvion.setText("|");
 
         JPanel textos = new JPanel();
         textos.setLayout(new BoxLayout(textos, BoxLayout.Y_AXIS));
         textos.add(ID);
         textos.add(avionesEnEspera);
         textos.add(tiempoPorAvion);
+        textos.add(infoAvion);
 
         Dimension tamaño = textos.getPreferredSize();
-        textos.setBounds(3, 3, tamaño.width, tamaño.height);
+        textos.setBounds(3, 3, ancho, tamaño.height);
         textos.setOpaque(false);
 
         add(textos);
@@ -62,6 +67,13 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
 
     @Override
     public void actualizarElementos() {
+        desplegarTextoAvionesEnEspera();
+        desplegarTextoTiempoFaltante();
+        desplegarInfoAvion();
+        ponerToolTips();
+        setToolTipText(toolTipTexto);
+        revalidate();
+        repaint();
     }
 
     public void ponerToolTips() {
@@ -71,12 +83,18 @@ public class InstalacionCuadro extends Cuadro implements Posicionable {
 
     public void desplegarTextoAvionesEnEspera() {
         avionesEnEspera.setFont(fuente);
+        instalacionEspera.armarTexto(instalacionEspera.getAvionesEnEspera().getIndiceMaximo() + 1);
         avionesEnEspera.setText("Aviones en Cola: " + instalacionEspera.getOcupados());
 
     }
 
     public void desplegarTextoTiempoFaltante() {
         tiempoPorAvion.setFont(fuente);
-        tiempoPorAvion.setText("Tiempo por avión: " + instalacionEspera.getTiempoFaltante());
+        tiempoPorAvion.setText((instalacionEspera.getAvionActivo() != null) ? "Tiempo faltante: " + instalacionEspera.getTiempoFaltante() : "Tiempo en aterrizar: " + instalacionEspera.getTiempoFaltante());
+    }
+
+    public void desplegarInfoAvion() {
+        infoAvion.setFont(fuente);
+        infoAvion.setText((instalacionEspera.getAvionActivo() != null) ? "Avion aterrizando con id: " + instalacionEspera.getAvionActivo().getID() : "Pista vacía");
     }
 }

@@ -7,12 +7,8 @@ package ui;
 import backend.Avion;
 import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
+import backend.estructuras.lista.EstructuraException;
 import backend.instalaciones.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import ui.cuadro.avion.AvionCuadro;
-import ui.cuadro.avion.AvionVolandoCuadro;
 
 import javax.swing.*;
 
@@ -50,7 +46,7 @@ public class Principal extends javax.swing.JFrame {
         jComboBoxEstacionC = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxPistaA = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jButtonAterrizar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -114,8 +110,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Autorizar aterrizaje del avión");
-        jButton1.setEnabled(false);
+        jButtonAterrizar.setText("Autorizar aterrizaje del avión");
+        jButtonAterrizar.setEnabled(false);
+        jButtonAterrizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAterrizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -133,7 +134,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jComboBoxAvionesContactados, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(jButton1)
+                .addComponent(jButtonAterrizar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -152,13 +153,13 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jComboBoxPistaA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                .addComponent(jButtonAterrizar))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Representación de colores en cuadros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Black", 2, 12))); // NOI18N
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setText("Avión Volando");
+        jLabel4.setText("Zona de vuelo");
         jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         jLabel5.setBackground(new java.awt.Color(167, 245, 108));
@@ -168,7 +169,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel6.setText("Estación de Control");
         jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(31, 60, -1, 19));
 
-        jLabel8.setText("Avión en zona de Despegue");
+        jLabel8.setText("Zona de Despegue");
         jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, 19));
 
         jLabel9.setBackground(new java.awt.Color(30, 229, 232));
@@ -289,14 +290,35 @@ public class Principal extends javax.swing.JFrame {
     private void jComboBoxEstacionCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstacionCActionPerformed
         try {
             mostrarAvionesSegunEstacionSeleccionada();
-        } catch (ListaException ex) {
-           
+        } catch (EstructuraException ex) {
+
         }
     }//GEN-LAST:event_jComboBoxEstacionCActionPerformed
 
     private void jComboBoxAvionesContactadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAvionesContactadosActionPerformed
-        
+
     }//GEN-LAST:event_jComboBoxAvionesContactadosActionPerformed
+
+    private void jButtonAterrizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAterrizarActionPerformed
+        autorizarAterrizaje();
+    }//GEN-LAST:event_jButtonAterrizarActionPerformed
+
+
+    public void autorizarAterrizaje() {
+        try {
+            int selectedIndexEstacion = jComboBoxEstacionC.getSelectedIndex();
+            EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndexEstacion);
+            int selectedIndexAvion = jComboBoxAvionesContactados.getSelectedIndex();
+            Avion avion = estacion.getAvionesContactados().obtenerElemento(selectedIndexAvion);
+            int selectedIndexPista = jComboBoxPistaA.getSelectedIndex();
+            PistaAterrizaje pista = motor.getPistasAterrizaje().obtenerElemento(selectedIndexPista);
+
+            pista.agregarAColaAvion(avion, estacion);
+
+        } catch (EstructuraException ex) {
+            JOptionPane.showMessageDialog(this, "Esta estación aún no tiene aviones contactados");
+        }
+    }
 
     public void abrirConfiguracion() {
         Configuracion configuracion = new Configuracion(this);
@@ -304,7 +326,7 @@ public class Principal extends javax.swing.JFrame {
         configuracion.setVisible(true);
     }
 
-    public void mostrarComboBox () {
+    public void mostrarComboBox() {
         try {
             mostrarComboBoxInstalacion(jComboBoxEstacionC, motor.getEstacionesControl(), "A. Contactados: ");
             mostrarComboBoxInstalacion(jComboBoxPistaA, motor.getPistasAterrizaje(), "A. en Cola: ");
@@ -317,6 +339,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void mostrarAereopuerto() {
         mostrarComboBox();
+        jButtonAterrizar.setEnabled(true);
 
         aereopuerto = new Aereopuerto(motor);
         aereopuerto.setBounds(0, 0, jPanelAereopuerto.getWidth(), jPanelAereopuerto.getHeight());
@@ -327,14 +350,14 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    public void mostrarAvionesSegunEstacionSeleccionada() throws ListaException {
-  
+    public void mostrarAvionesSegunEstacionSeleccionada() throws EstructuraException {
+
         int selectedIndex = jComboBoxEstacionC.getSelectedIndex();
         EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndex);
         mostrarComboBoxAviones(estacion);
     }
 
-    public void mostrarComboBoxInstalacion(JComboBox combo, Lista lista, String textoEspecifico) throws ListaException {
+    public void mostrarComboBoxInstalacion(JComboBox combo, Lista lista, String textoEspecifico) throws EstructuraException {
         combo.setEnabled(true);
         combo.removeAllItems();
 
@@ -348,7 +371,7 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    public void mostrarComboBoxAviones(EstacionControl estacionControl) throws ListaException {
+    public void mostrarComboBoxAviones(EstacionControl estacionControl) throws EstructuraException {
         jComboBoxAvionesContactados.setEnabled(true);
         jComboBoxAvionesContactados.removeAllItems();
         for (int i = 0; i < estacionControl.getAvionesContactados().obtenerLongitud(); i++) {
@@ -366,7 +389,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu IniciarSimulacion;
     private javax.swing.JMenu JMenuAcciones;
     private javax.swing.JMenu JMenuConfig;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAterrizar;
     private javax.swing.JComboBox<String> jComboBoxAvionesContactados;
     private javax.swing.JComboBox<String> jComboBoxEstacionC;
     private javax.swing.JComboBox<String> jComboBoxPistaA;

@@ -9,21 +9,24 @@ import backend.estructuras.lista.Cola;
 import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**
- *
  * @author Kenny
  */
 public abstract class InstalacionConEspera extends Instalacion {
-   protected Cola<Avion> avionesEnEspera;
-   protected String tiempoFaltante;
-   
+    protected Cola<Avion> avionesEnEspera;
+    protected String tiempoFaltante;
+
     public InstalacionConEspera(int ID, int cantidad) {
         super(ID, cantidad);
-        avionesEnEspera = new Cola<Avion>();
-   
+        avionesEnEspera = new Cola<Avion>(cantidad);
+
+    }
+
+    public Cola<Avion> getAvionesEnEspera() {
+        return avionesEnEspera;
     }
 
     public String getTiempoFaltante() {
         return tiempoFaltante;
     }
-    
+
 }

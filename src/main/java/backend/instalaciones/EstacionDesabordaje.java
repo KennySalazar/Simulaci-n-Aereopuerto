@@ -6,10 +6,11 @@ package backend.instalaciones;
 
 import backend.Avion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import ui.cuadro.instalacion.InstalacionCuadro;
+import backend.estructuras.lista.EstructuraException;
+import backend.hilos.HiloEstacionDesabordaje;
+import backend.hilos.HiloPistaAterrizaje;
+
+import javax.swing.*;
 
 /**
  *
@@ -18,30 +19,17 @@ import ui.cuadro.instalacion.InstalacionCuadro;
 public class EstacionDesabordaje extends InstalacionConEspera {
 
     private static int tiempoDesabordar;
-
     private int tiempoFinal;
     private int tiempoFinalActual;
+    private int pasajerosDesabordados;
 
     public EstacionDesabordaje(int ID, int cantidad) {
         super(ID, cantidad);
         tiempoFaltante = "0s";
     }
 
-    public void calcularTiempo() {
-        avionActivo = new Avion(11, "pequeño", 3);
-        tiempoFinal = (avionActivo.getCantidadPasejeros() * EstacionDesabordaje.tiempoDesabordar) / 1000;
-        tiempoFaltante = tiempoFinal + "s";
-        tiempoFinalActual = tiempoFinal;
-    }
-
-    @Override
-    public void run() {
-        mostrarDesabordaje();
-    }
-
     public static void setTiempoDesabordar(int tiempoDesabordo) {
         tiempoDesabordar = tiempoDesabordo;
-
     }
 
     @Override
@@ -52,33 +40,70 @@ public class EstacionDesabordaje extends InstalacionConEspera {
                 EstacionDesabordaje estacionD = new EstacionDesabordaje(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
                 elementos.agregar(estacionD);
 
-            } catch (ListaException ex) {
+            } catch (EstructuraException ex) {
 
             }
         }
 
     }
 
-    public void mostrarDesabordaje() {
-        calcularTiempo();
-        while (tiempoFinalActual > 0) {
 
-            try {
-                mostrarTiempoDesabordaje();
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+
+    public void crearHilo() {
+        pasajerosDesabordados = avionActivo.getCantidadPasejeros();
+        HiloEstacionDesabordaje hilo = new HiloEstacionDesabordaje(this);
+        hilo.start();
+    }
+
+    public void agregarAColaAvion(Avion avion) {
+        try {
+            if (avionesEnEspera.esVacia() && avionActivo == null) {
+                avionActivo = avion;
+                avion.contactarEstacionDesabordaje(this);
+                crearHilo();
+            } else if (!avionesEnEspera.esLlena()) {
+                avionesEnEspera.encolarElemento(avion);
+                cuadro.actualizarElementos();
+                avion.contactarEstacionDesabordaje(this);
             }
-            tiempoFinalActual--;
+        } catch (Exception e) {
         }
-        terminarDesabordaje();
     }
 
     public void mostrarTiempoDesabordaje() {
-        System.out.println("TIEMPO FALTANTE: " + tiempoFinalActual + "s");
+        System.out.println("Pasajeros desabordando: " + pasajerosDesabordados);
+    }
+
+    public void siguienteEnCola() throws EstructuraException {
+        avionActivo = avionesEnEspera.desencolar();
+//        cuadro.actualizarElementos();
+        crearHilo();
     }
 
     public void terminarDesabordaje() {
-        System.out.println("EL DESABORDAJE TERMINO");
+//        if (motor.encontrarEstacionMantenimiento() != null) {
+            try {
+                siguienteEnCola();
+            } catch (EstructuraException e) {
+                System.out.println("Ya no hay aviones en cola");
+                avionActivo = null;
+//                cuadro.actualizarElementos();
+            }
+//        }else {
+//            JOptionPane.showMessageDialog(null, "No hay espacion en ninguna estación de mantenimiento, cuando se desocupe alguna será enviado hacia allá.");
+//        }
     }
+
+    public int getPasajerosDesabordados() {
+        return pasajerosDesabordados;
+    }
+
+    public void setPasajerosDesabordados(int pasajerosDesabordados) {
+        this.pasajerosDesabordados = pasajerosDesabordados;
+    }
+
+    public static int getTiempoDesabordar() {
+        return EstacionDesabordaje.tiempoDesabordar;
+    }
+
 }

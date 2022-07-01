@@ -4,76 +4,122 @@
  */
 package backend.instalaciones;
 
+import backend.Avion;
+import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import ui.cuadro.instalacion.InstalacionCuadro;
+import backend.estructuras.lista.EstructuraException;
+import backend.hilos.HiloPistaAterrizaje;
+
+import javax.swing.*;
 
 /**
- *
  * @author Kenny
  */
 public class PistaAterrizaje extends InstalacionConEspera {
 
+    private int tiempoActual;
     private static int tiempoAterrizaje;
-    
-    private String ocupados;
-    private int tiempoAterrizajeActual;
+    private MotorSimulacion motor;
 
     public PistaAterrizaje(int ID, int cantidad) {
         super(ID, cantidad);
-        tiempoFaltante = (tiempoAterrizaje/1000) + "s";
-       
-    }
-
-    @Override
-    public void run() {
-        mostrarAterrizaje();
     }
 
     public static void setTiempoAterrizaje(int nuevoTiempoAterrizaje) {
         tiempoAterrizaje = nuevoTiempoAterrizaje / 1000;
-        
     }
-    
-    
-     @Override
-    public void crearLista(Lista lineas, Lista elementos){
-          for (int i = 0; i < lineas.obtenerLongitud(); i++) {
+
+    public void setMotor(MotorSimulacion motor) {
+        this.motor = motor;
+    }
+
+    @Override
+    public void crearLista(Lista lineas, Lista elementos) {
+        for (int i = 0; i < lineas.obtenerLongitud(); i++) {
             try {
-                String[] separador = ((String)lineas.obtenerElemento(i)).split(",");
+                String[] separador = ((String) lineas.obtenerElemento(i)).split(",");
                 PistaAterrizaje pistaAterrizaje = new PistaAterrizaje(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
                 elementos.agregar(pistaAterrizaje);
 
-            } catch (ListaException ex) {
+            } catch (EstructuraException ex) {
 
             }
         }
-        
-        
     }
-    
-    public void mostrarAterrizaje(){
-        tiempoAterrizajeActual = tiempoAterrizaje;
-        while(tiempoAterrizajeActual > 0){
-            
+
+    public void crearHilo() {
+        HiloPistaAterrizaje hilo = new HiloPistaAterrizaje(avionActivo, this);
+        hilo.start();
+    }
+
+    public void aterrizarHecho() {
+        avionActivo.aterrizar();
+        if (motor.encontrarEstacionDesabordaje() != null) {
             try {
-                mostrarTiempoAterrizaje();
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-               ex.printStackTrace();
+                siguienteEnCola();
+            } catch (EstructuraException e) {
+                System.out.println("Ya no hay aviones en cola");
+                avionActivo = null;
+                cuadro.actualizarElementos();
             }
-            tiempoAterrizajeActual--;
+        }else {
+            JOptionPane.showMessageDialog(null, "No hay espacion en ninguna estación de desabordaje, cuando se desocupe alguna será enviado hacia allá.");
         }
-        aterrizarHecho();
     }
-    
-    public void aterrizarHecho(){
-        System.out.println("EL AVION ATERRIZO.");
+
+    public void siguienteEnCola() throws EstructuraException {
+        avionActivo = avionesEnEspera.desencolar();
+        cuadro.actualizarElementos();
+        crearHilo();
     }
-    
-    public void mostrarTiempoAterrizaje(){
-        System.out.println("El tiempo faltante para aterrizar: " + tiempoAterrizajeActual + "s");
+
+    public void mostrarTiempoAterrizaje() {
+        tiempoFaltante = tiempoActual + "s";
+        cuadro.actualizarElementos();
+    }
+
+    public void agregarAColaAvion(Avion avion, EstacionControl estacion) {
+        try {
+            if (avionesEnEspera.esVacia() && avionActivo == null) {
+                avionActivo = avion;
+                avion.contactarPista(this);
+                estacion.eliminarAvion(avion);
+                crearHilo();
+            } else if (!avionesEnEspera.esLlena()) {
+                avionesEnEspera.encolarElemento(avion);
+                cuadro.actualizarElementos();
+                avion.contactarPista(this);
+                estacion.eliminarAvion(avion);
+            } else {
+                JOptionPane.showMessageDialog(null, "La cola de la pista con id: " + ID + " está llena");
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    public void eliminarAvion(Avion avion) {
+        try {
+            int indice = avionesEnEspera.obtenerIndiceElemento(avion);
+            avionesEnEspera.actualizarOrden(indice);
+            cuadro.actualizarElementos();
+            motor.actualizarCombobox();
+            System.out.println("explotado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setTiempoActual(int tiempoActual) {
+        this.tiempoActual = tiempoActual;
+    }
+
+    public static int getTiempoAterrizaje() {
+        return PistaAterrizaje.tiempoAterrizaje;
+    }
+
+    public int getTiempoActual() {
+        return tiempoActual;
     }
 }

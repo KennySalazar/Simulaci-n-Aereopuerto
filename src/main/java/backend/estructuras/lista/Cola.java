@@ -4,52 +4,80 @@
  */
 package backend.estructuras.lista;
 
-import javax.print.attribute.standard.MediaSize;
-
 /**
- *
  * @author Kenny
  */
 public class Cola<T> {
-    private Nodo<T> inicio;
-    private Nodo<T> fin;
-    private int tamaño;
-    
-    public Cola(){
-        inicio = null;
-        fin = null;
-        tamaño = 0;
+
+    private T[] arreglo;
+    private int indiceMaximo;
+
+    public Cola(int tamaño) {
+        this.arreglo = (T[]) new Object[tamaño];
+        indiceMaximo = -1;
     }
-    
-    public boolean estaVacia(){
-        return inicio == null;
-    }
-    
-    public void insertarElemento(T elemento){
-        Nodo<T> nuevoNodo = new Nodo<>(elemento);
-        if(estaVacia()){
-            inicio = nuevoNodo;
-        } else{
-            fin.setSiguiente(nuevoNodo);
+
+    public void encolarElemento(T elemento) throws EstructuraException {
+        if (esLlena()) {
+            throw new EstructuraException("La cola está llena");
+        } else {
+            indiceMaximo++;
+            arreglo[indiceMaximo] = elemento;
         }
-        fin = nuevoNodo;
-        tamaño++;
     }
-    
-    public T eleminarElemento(){
-        T quitarElemento = inicio.getContenido();
-        inicio = inicio.getSiguiente();
-        tamaño--;
-        return quitarElemento;
+
+    public T desencolar() throws EstructuraException {
+        if (esVacia()) {
+            throw new EstructuraException("La cola está vacia");
+        } else {
+            T primerElemento = arreglo[0];
+            actualizarOrden(0);
+
+            return primerElemento;
+        }
     }
-    
-    public Nodo<T> inicioCola(){
-        return (Nodo<T>) inicio.getContenido();
+
+    public T inicioCola() throws EstructuraException {
+        if (esVacia()) {
+            throw new EstructuraException("La cola esta vacía");
+        } else {
+            return arreglo[0];
+        }
     }
-    
-    public int LongitudCola(){
-        return tamaño;
-        
+
+    public void actualizarOrden(int inicio) {
+        for (int i = inicio; i < arreglo.length - 1; i++) {
+            if (arreglo[i] != null){
+                arreglo[i] = arreglo[i + 1];
+                arreglo[i+1] = null;
+            }
+        }
+        if (inicio >= 0 && inicio < arreglo.length - 1) indiceMaximo--;
     }
-    
+
+    public boolean esLlena() {
+        return indiceMaximo == arreglo.length - 1;
+    }
+
+    public boolean esVacia() {
+        return indiceMaximo == -1;
+    }
+
+    public int obtenerIndiceElemento(T elemento) throws EstructuraException {
+        if (esVacia()) {
+            throw new EstructuraException("La cola está vacia");
+        } else {
+            T actual = arreglo[0];
+            for (int i = 0; i < arreglo.length; i++) {
+                if (actual.equals(elemento))
+                    return i;
+                actual = arreglo[i + 1];
+            }
+            return -1;
+        }
+    }
+
+    public int getIndiceMaximo() {
+        return indiceMaximo;
+    }
 }

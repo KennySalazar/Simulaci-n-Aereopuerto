@@ -2,7 +2,7 @@ package ui;
 
 import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
+import backend.estructuras.lista.EstructuraException;
 import ui.cuadro.EstacionControlCuadro;
 import ui.cuadro.avion.AvionDespegueCuadro;
 import ui.cuadro.avion.AvionVolandoCuadro;
@@ -77,7 +77,7 @@ public class Aereopuerto extends JPanel {
                 add(avionVolandoCuadro);
                 avionesVolando.agregar(avionVolandoCuadro);
                 motor.getAviones().obtenerElemento(i).setCuadro(avionVolandoCuadro);
-            } catch (ListaException e) {
+            } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
                 panel.setOpaque(false);
@@ -93,7 +93,7 @@ public class Aereopuerto extends JPanel {
                 add(estacionControlCuadro);
                 estacionesControl.agregar(estacionControlCuadro);
                 motor.getEstacionesControl().obtenerElemento(i).setCuadro(estacionControlCuadro);
-            } catch (ListaException e) {
+            } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
                 panel.setOpaque(false);
@@ -105,10 +105,12 @@ public class Aereopuerto extends JPanel {
         for (int i = 0; i < mayorLongitud; i++) {
             try {
                 PistaAterrizajeCuadro pistaCuadro = new PistaAterrizajeCuadro(motor.getPistasAterrizaje().obtenerElemento(i));
+                motor.getPistasAterrizaje().obtenerElemento(i).setMotor(motor);
                 pistaCuadro.posicionarElementos(anchoCuadro, altoCuadro);
                 add(pistaCuadro);
                 pistasAterrizaje.agregar(pistaCuadro);
-            } catch (ListaException e) {
+                motor.getPistasAterrizaje().obtenerElemento(i).setCuadro(pistaCuadro);
+            } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
                 panel.setOpaque(false);
@@ -123,7 +125,8 @@ public class Aereopuerto extends JPanel {
                 desabordajeCuadro.posicionarElementos(anchoCuadro, altoCuadro);
                 add(desabordajeCuadro);
                 estacionesDesbordaje.agregar(desabordajeCuadro);
-            } catch (ListaException e) {
+                motor.getEstacionesDesabordaje().obtenerElemento(i).setCuadro(desabordajeCuadro);
+            } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
                 panel.setOpaque(false);
@@ -138,7 +141,8 @@ public class Aereopuerto extends JPanel {
                 mantenimiento.posicionarElementos(anchoCuadro, altoCuadro);
                 add(mantenimiento);
                 estacionesMantenimiento.agregar(mantenimiento);
-            } catch (ListaException e) {
+                motor.getEstacionesMantenimiento().obtenerElemento(i).setCuadro(mantenimiento);
+            } catch (EstructuraException e) {
                 JPanel panel = new JPanel();
                 add(panel);
                 panel.setOpaque(false);

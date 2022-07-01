@@ -28,8 +28,5 @@ public class PistaAterrizajeCuadro extends InstalacionCuadro {
 
     }
 
-    @Override
-    public void actualizarElementos() {
-    }
 
 }

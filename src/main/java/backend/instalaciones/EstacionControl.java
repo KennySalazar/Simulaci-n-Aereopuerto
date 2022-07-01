@@ -7,9 +7,8 @@ package backend.instalaciones;
 import backend.Avion;
 import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
+import backend.estructuras.lista.EstructuraException;
 import ui.cuadro.EstacionControlCuadro;
-import ui.cuadro.instalacion.InstalacionCuadro;
 
 /**
  * @author Kenny
@@ -42,7 +41,7 @@ public class EstacionControl extends Instalacion {
                 EstacionControl estacionC = new EstacionControl(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
                 elementos.agregar(estacionC);
 
-            } catch (ListaException ex) {
+            } catch (EstructuraException ex) {
 
             }
         }
@@ -70,9 +69,13 @@ public class EstacionControl extends Instalacion {
             avionesContactados.borrarElemento(avion);
             cuadro.actualizarElementos();
             motor.actualizarCombobox();
-        } catch (ListaException e) {
+        } catch (EstructuraException e) {
             e.printStackTrace();
         }
 
     }
+
+//    public void contactarPista(Avion avion, PistaAterrizaje pista) {
+//        eliminarAvion(avion);
+//    }
 }

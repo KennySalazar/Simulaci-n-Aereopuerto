@@ -33,8 +33,8 @@ public abstract class Instalacion extends Thread {
         return ID;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public InstalacionCuadro getCuadro() {
+        return cuadro;
     }
 
     public String getOcupados() {
@@ -43,6 +43,10 @@ public abstract class Instalacion extends Thread {
 
     public void setCuadro(InstalacionCuadro cuadro) {
         this.cuadro = cuadro;
+    }
+
+    public Avion getAvionActivo() {
+        return avionActivo;
     }
 
     @Override

@@ -5,7 +5,7 @@
 package backend;
 
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
+import backend.estructuras.lista.EstructuraException;
 import backend.instalaciones.*;
 import ui.Principal;
 
@@ -75,12 +75,12 @@ public class MotorSimulacion {
             estacion.setMotor(this);
             estacion.contactarAvion(avion);
             avion.setEstacionControl(estacion);
-            return  true;
-        } catch (ListaException e) {
-            JOptionPane.showMessageDialog(null,"No existe ninguna estación de control con ese id","Error",JOptionPane.WARNING_MESSAGE);
+            return true;
+        } catch (EstructuraException e) {
+            JOptionPane.showMessageDialog(null, "No existe ninguna estación de control con ese id", "Error", JOptionPane.WARNING_MESSAGE);
             return false;
-        } catch( Exception e){
-            JOptionPane.showMessageDialog(null,"Esa estacion de control no puede contactar más aviones","Error",JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Esa estacion de control no puede contactar más aviones", "Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
@@ -90,16 +90,18 @@ public class MotorSimulacion {
         for (int i = 0; i < lista.obtenerLongitud(); i++) {
 
             try {
-                if(lista.obtenerElemento(i) instanceof Avion){
-                    if(((Avion) lista.obtenerElemento(i)).getID() == id){
+                if (lista.obtenerElemento(i) instanceof Avion) {
+                    if (((Avion) lista.obtenerElemento(i)).getID() == id) {
                         return i;
-                    };
-                }else if(lista.obtenerElemento(i) instanceof EstacionControl){
-                    if(((EstacionControl)lista.obtenerElemento(i)).getID() == id){
+                    }
+                    ;
+                } else if (lista.obtenerElemento(i) instanceof EstacionControl) {
+                    if (((EstacionControl) lista.obtenerElemento(i)).getID() == id) {
                         return i;
-                    };
+                    }
+                    ;
                 }
-            } catch (ListaException e) {
+            } catch (EstructuraException e) {
                 e.printStackTrace();
             }
         }
@@ -108,7 +110,22 @@ public class MotorSimulacion {
 
     }
 
+    public void autorizarAterrizaje(Avion avion, PistaAterrizaje pista) {
+
+    }
+
     public void actualizarCombobox() {
         principal.mostrarComboBox();
+    }
+
+    public EstacionDesabordaje encontrarEstacionDesabordaje() {
+        for (int i = 0; i < estacionesDesabordaje.obtenerLongitud(); i++) {
+            try {
+                EstacionDesabordaje estacion = estacionesDesabordaje.obtenerElemento(i);
+                if (!estacion.getAvionesEnEspera().esLlena()) return estacion;
+            } catch (EstructuraException e) {
+            }
+        }
+        return null;
     }
 }

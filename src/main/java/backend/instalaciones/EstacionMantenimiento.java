@@ -6,10 +6,7 @@ package backend.instalaciones;
 
 import backend.Avion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import ui.cuadro.instalacion.InstalacionCuadro;
+import backend.estructuras.lista.EstructuraException;
 
 /**
  *
@@ -50,7 +47,7 @@ public class EstacionMantenimiento extends InstalacionConEspera {
                 EstacionMantenimiento estacionM = new EstacionMantenimiento(Integer.parseInt(separador[0]), Integer.parseInt(separador[1]));
                 elementos.agregar(estacionM);
 
-            } catch (ListaException ex) {
+            } catch (EstructuraException ex) {
 
             }
         }

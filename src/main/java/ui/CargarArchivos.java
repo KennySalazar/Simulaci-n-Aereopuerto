@@ -7,11 +7,10 @@ package ui;
 import backend.Avion;
 import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
-import backend.estructuras.lista.ListaException;
+import backend.estructuras.lista.EstructuraException;
 import backend.instalaciones.EstacionControl;
 import backend.instalaciones.EstacionDesabordaje;
 import backend.instalaciones.EstacionMantenimiento;
-import backend.instalaciones.Instalacion;
 import backend.instalaciones.PistaAterrizaje;
 
 import java.awt.event.ActionEvent;
@@ -256,7 +255,7 @@ public class CargarArchivos extends javax.swing.JFrame {
                 Avion avion = new Avion(Integer.parseInt(separador[0]), separador[1], Integer.parseInt(separador[2]));
                 motor.getAviones().agregar(avion);
 
-            } catch (ListaException ex) {
+            } catch (EstructuraException ex) {
 
             }
         }

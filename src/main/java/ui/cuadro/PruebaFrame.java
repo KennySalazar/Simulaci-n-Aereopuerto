@@ -22,28 +22,28 @@ public class PruebaFrame {
     public static void main(String[] args) {
 
         // crear frame
-        JFrame jf = new JFrame("prueba");
-        jf.setSize(500,500);
-        jf.setLayout(new FlowLayout(FlowLayout.CENTER));
-        jf.setVisible(true);
-
-
-        // CUADRO AVION VOLANDO
-        Avion a = new Avion(1, "grande", 500);
-        AvionVolandoCuadro avc = new AvionVolandoCuadro(a);
-        avc.posicionarElementos(250,250);
-        jf.add(avc);
-
-        jf.revalidate();
-        jf.repaint();
-        
-        Avion b = new Avion(2, "mediano", 400);
-        AvionDespegueCuadro adc = new AvionDespegueCuadro(b);
-        adc.posicionarElementos(250,250);
-        jf.add(adc);
-
-        jf.revalidate();
-        jf.repaint();
+//        JFrame jf = new JFrame("prueba");
+//        jf.setSize(500,500);
+//        jf.setLayout(new FlowLayout(FlowLayout.CENTER));
+//        jf.setVisible(true);
+//
+//
+//        // CUADRO AVION VOLANDO
+//        Avion a = new Avion(1, "grande", 500);
+//        AvionVolandoCuadro avc = new AvionVolandoCuadro(a);
+//        avc.posicionarElementos(250,250);
+//        jf.add(avc);
+//
+//        jf.revalidate();
+//        jf.repaint();
+//
+//        Avion b = new Avion(2, "mediano", 400);
+//        AvionDespegueCuadro adc = new AvionDespegueCuadro(b);
+//        adc.posicionarElementos(250,250);
+//        jf.add(adc);
+//
+//        jf.revalidate();
+//        jf.repaint();
         
         /*
         PistaAterrizaje pA = new PistaAterrizaje(22, 6);
@@ -90,9 +90,11 @@ public class PruebaFrame {
         EstacionMantenimiento.setTiempoMantenimiento(3000);
         em.start();*/
         
-//        EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
-//        EstacionDesabordaje.setTiempoDesabordar(3000);
-//        ed.start();
+        EstacionDesabordaje ed = new EstacionDesabordaje(11, 5);
+        EstacionDesabordaje.setTiempoDesabordar(350);
+        ed.agregarAColaAvion(new Avion(1,"mediano",5000));
+        ed.agregarAColaAvion(new Avion(2,"mediano",5000));
+
         
       
     }

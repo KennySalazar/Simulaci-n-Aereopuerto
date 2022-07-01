@@ -49,9 +49,9 @@ public class Lista<T> implements Serializable{
         return -1;
     }
 
-    public void eliminarPorIndice(int indice) throws ListaException {
+    public void eliminarPorIndice(int indice) throws EstructuraException {
         if (indice >= longitud || indice < 0) {
-            throw new ListaException("Indice fuera de rango");
+            throw new EstructuraException("Indice fuera de rango");
         }
 
         if (indice == 0) {
@@ -68,9 +68,9 @@ public class Lista<T> implements Serializable{
 
     }
 
-    public void eliminarUltimo() throws ListaException {
+    public void eliminarUltimo() throws EstructuraException {
         if (esVacia()) {
-            throw new ListaException("La lista esta vacia!");
+            throw new EstructuraException("La lista esta vacia!");
         } else if (longitud == 1) {
             inicio = null;
             ultimo = null;
@@ -82,13 +82,13 @@ public class Lista<T> implements Serializable{
         longitud--;
     }
 
-    public T obtenerElemento(int indice) throws ListaException {
+    public T obtenerElemento(int indice) throws EstructuraException {
         return encontrarPorIndice(indice).getContenido();
     }
 
-    public Nodo<T> encontrarPorIndice(int indice) throws ListaException {
+    public Nodo<T> encontrarPorIndice(int indice) throws EstructuraException {
         if (indice >= longitud || indice < 0) {
-            throw new ListaException("Indice fuera de rango");
+            throw new EstructuraException("Indice fuera de rango");
         }
 
         Nodo<T> actual = inicio;
@@ -100,7 +100,7 @@ public class Lista<T> implements Serializable{
         return actual;
     }
 
-    public void borrarElemento(T elemento) throws ListaException {
+    public void borrarElemento(T elemento) throws EstructuraException {
 
         int i = obtenerIndice(elemento);
         eliminarPorIndice(i);
