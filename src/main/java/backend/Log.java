@@ -9,5 +9,20 @@ package backend;
  * @author Kenny
  */
 public class Log {
-    
+
+    private String titulo;
+    private String contenido;
+
+    public Log(String titulo, String contenido) {
+        this.titulo = titulo;
+        this.contenido = contenido;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
 }

@@ -28,10 +28,9 @@ public class HiloEstacionMantenimiento extends Thread{
 
             try {
                 estacionMantenimiento.getCuadro().actualizarElementos();
-                System.out.println("TIEMPO " + estacionMantenimiento.getTiempoFinalActual());
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+            
             }
             estacionMantenimiento.setTiempoFinalActual(estacionMantenimiento.getTiempoFinalActual() - 1);
         }

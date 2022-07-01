@@ -6,6 +6,8 @@ package backend;
 
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
+import backend.hilos.HiloAvionDespegue;
+import backend.hilos.HiloAvionVolando;
 import backend.instalaciones.EstacionControl;
 
 import java.util.Random;
@@ -20,7 +22,7 @@ import javax.swing.*;
 /**
  * @author Kenny
  */
-public class Avion extends Thread {
+public class Avion  {
 
     private int ID;
     private String tipo;
@@ -33,6 +35,8 @@ public class Avion extends Thread {
     private String estado;
     private MotorSimulacion motor;
     private PistaAterrizaje pista;
+    private HiloAvionVolando hiloActual;
+    private int tiempoDespegueActual;
     Random rd = new Random();
 
     private static int tiempoDespegue;
@@ -58,12 +62,6 @@ public class Avion extends Thread {
 
     public static void setTiempoGastoCombustible(int nuevoTiempoGastoCombustible) {
         tiempoGastoCombustible = nuevoTiempoGastoCombustible;
-    }
-
-    @Override
-    public void run() {
-
-        solicitarEstacionControl();
     }
 
     public String getTipo() {
@@ -112,42 +110,6 @@ public class Avion extends Thread {
         return estacionControl;
     }
 
-    public void solicitarEstacionControl() {
-
-        combustibleActual = combustible;
-        int porcentajeContactarEstacion = 95;
-        int porcentajeAnterior = 100;
-
-        while (combustibleActual >= 0 && !Thread.currentThread().isInterrupted()) {
-            try {
-                porcentajeGasolina = Math.round(combustibleActual * 100 / combustible);
-                mostrarCombustible();
-                if (porcentajeAnterior != porcentajeGasolina) {
-                    porcentajeAnterior = porcentajeGasolina;
-                    if (porcentajeGasolina == 25) {
-                        JOptionPane.showMessageDialog(null, "El avion con id " + ID + " le queda 25% de combustible", "Emergencia!", JOptionPane.WARNING_MESSAGE);
-                        cuadro.alertar();
-                    }
-                }
-                Thread.sleep(Avion.tiempoGastoCombustible);
-
-            } catch (InterruptedException ex) {
-                System.out.println("hilo interrumpido");
-            } catch (NullPointerException e) {
-
-            }
-            combustibleActual--;
-
-            if (porcentajeGasolina <= porcentajeContactarEstacion && porcentajeContactarEstacion != 0 && estacionControl == null) {
-                if (pista == null) {
-                    contactarEstacion();
-                    porcentajeContactarEstacion -= 5;
-                }
-            }
-
-        }
-        if(cuadro != null) explotar();
-    }
 
     public void mostrarCombustible() {
         cuadro.actualizarElementos();
@@ -158,8 +120,8 @@ public class Avion extends Thread {
         try {
             if (idEstacion != null || idEstacion.equals("")) {
                 int idEstacionNumero = Integer.parseInt(idEstacion);
-                System.out.println(idEstacionNumero);
                 if (motor.contactarEstacion(this, idEstacionNumero)) {
+                    motor.nuevoLog("Avion", "El avion con id " + ID + " contactó con la estación con id " + idEstacionNumero);
                     cuadro.desplegarEstacionContacto();
                     cuadro.actualizarElementos();
                 }
@@ -170,6 +132,23 @@ public class Avion extends Thread {
         }
     }
 
+    public void comenzarDespegue() {
+        motor.nuevoLog("Despegue", "El avión con id " + ID + " empezó su despegue");
+        setEstado("Despegando...");
+        crearHiloAvionDespegue();
+    }
+
+    public void crearHiloAvionVolando() {
+        hiloActual = new HiloAvionVolando(this);
+        hiloActual.start();
+    }
+
+    public void crearHiloAvionDespegue() {
+        tiempoDespegueActual = Avion.tiempoDespegue;
+        HiloAvionDespegue hilo = new HiloAvionDespegue(this);
+        hilo.start();
+    }
+
     public void setEstacionControl(EstacionControl estacionControl) {
         this.estacionControl = estacionControl;
     }
@@ -177,13 +156,14 @@ public class Avion extends Thread {
 
     public void explotar() {
         borrarCuadro();
+        motor.nuevoLog("Avion", "El avion con id " + ID + " explotó");
         try {
             motor.getAviones().borrarElemento(this);
             if (estacionControl != null) estacionControl.eliminarAvion(this);
             if (pista != null) pista.eliminarAvion(this);
             JOptionPane.showMessageDialog(null, "El avion con id " + ID + " ha explotado");
         } catch (EstructuraException e) {
-            e.printStackTrace();
+           
         }
     }
 
@@ -206,11 +186,13 @@ public class Avion extends Thread {
         JOptionPane.showMessageDialog(null, "El avion con id " + ID + " fue enviado a la pista de aterrizaje con id: " + pista.getID());
         setEstado("Esperando aterrizaje...");
         cuadro.actualizarElementos();
+        motor.nuevoLog("Avion", "El avion con id " + ID + " contactó con la pista con id " + pista.getID());
     }
 
     public void aterrizar() {
         pista.getCuadro().actualizarElementos();
-        interrupt();
+        motor.nuevoLog("Avion", "El avion con id " + ID + " aterrizó");
+        hiloActual.interrupt();
     }
 
     public void borrarCuadro() {
@@ -224,6 +206,54 @@ public class Avion extends Thread {
     
     public void contactarEstacionMantenimiento(EstacionMantenimiento estacionMantenimiento) {
         
+    }
+
+    public int getCombustible() {
+        return combustible;
+    }
+
+    public void setCombustibleActual(int combustibleActual) {
+        this.combustibleActual = combustibleActual;
+    }
+
+    public void setPorcentajeGasolina(int porcentajeGasolina) {
+        this.porcentajeGasolina = porcentajeGasolina;
+    }
+
+    public AvionCuadro getCuadro() {
+            return cuadro;
+    }
+
+    public static int getTiempoGastoCombustible(){
+        return Avion.tiempoGastoCombustible;
+    }
+
+    public PistaAterrizaje getPista() {
+            return pista;
+    }
+
+    public void setTiempoDespegueActual(int tiempoDespegueActual) {
+            this.tiempoDespegueActual = tiempoDespegueActual;
+    }
+
+    public int getTiempoDespegueActual() {
+        return tiempoDespegueActual;
+    }
+
+    public static int getTiempoDespegue() {
+        return Avion.getTiempoDespegue();
+    }
+
+    public MotorSimulacion getMotor() {
+        return motor;
+    }
+
+    public void disminuirTiempoActual() {
+        tiempoDespegueActual-=1000;
+    }
+
+    public void setPista(PistaAterrizaje pista) {
+        this.pista = pista;
     }
 }
 

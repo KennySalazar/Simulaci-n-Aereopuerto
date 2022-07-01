@@ -1,5 +1,6 @@
 package ui;
 
+import backend.Avion;
 import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
@@ -161,6 +162,41 @@ public class Aeropuerto extends JPanel {
             avion.posicionarElementos(anchoCuadro, altoCuadro);
             add(avion);
             avionesDespegue.agregar(avion);
+        }
+    }
+
+    public void enviarAvionADespegue(Avion avion) {
+        for (int i = 0; i < avionesDespegue.obtenerLongitud(); i++) {
+            try {
+                AvionDespegueCuadro avionCuadro = avionesDespegue.obtenerElemento(i);
+                if(avionCuadro.getAvion() == null){
+                    avionCuadro.setAvion(avion);
+                    avion.setCuadro(avionCuadro);
+                    avionCuadro.posicionarElementos(avionCuadro.getWidth(),avionCuadro.getHeight());
+                    avion.crearHiloAvionDespegue();
+                    avion.setEstado("Esperando despegue...");
+                    break;
+                }
+            } catch (EstructuraException e) {
+            }
+        }
+    }
+
+    public void enviarAVuelo(Avion avion) {
+        for (int i = 0; i < avionesVolando.obtenerLongitud(); i++) {
+            try {
+                AvionVolandoCuadro avionCuadro = avionesVolando.obtenerElemento(i);
+                if(avionCuadro.getAvion() == null){
+                    avionCuadro.setAvion(avion);
+                    avion.setCuadro(avionCuadro);
+                    avionCuadro.posicionarElementos(avionCuadro.getWidth(),avionCuadro.getHeight());
+                    avion.setEstacionControl(null);
+                    avion.setPista(null);
+                    avion.crearHiloAvionVolando();
+                    break;
+                }
+            } catch (EstructuraException e) {
+            }
         }
     }
 }

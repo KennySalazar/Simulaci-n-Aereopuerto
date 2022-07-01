@@ -203,6 +203,7 @@ public class Configuracion extends javax.swing.JFrame {
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         asignarTiempos();
         dispose();
+        principal.getMotor().conseguirPath();
         principal.mostrarAereopuerto();
         principal.setEnabled(true);
         

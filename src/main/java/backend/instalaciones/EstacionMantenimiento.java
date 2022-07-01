@@ -9,10 +9,10 @@ import backend.MotorSimulacion;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
 import backend.hilos.HiloEstacionMantenimiento;
+
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author Kenny
  */
 public class EstacionMantenimiento extends InstalacionConEspera {
@@ -58,6 +58,7 @@ public class EstacionMantenimiento extends InstalacionConEspera {
     }
 
     public void crearHilo() {
+        motor.nuevoLog("Estación mantenimiento", "El avión con id: " + avionActivo.getID()+" empezará su mantenimiento en la estación de mantenimiento con id " + ID);
         HiloEstacionMantenimiento hilo = new HiloEstacionMantenimiento(this);
         hilo.start();
     }
@@ -69,6 +70,7 @@ public class EstacionMantenimiento extends InstalacionConEspera {
                 avion.contactarEstacionMantenimiento(this);
                 crearHilo();
             } else if (!avionesEnEspera.esLlena()) {
+                motor.nuevoLog("Estacion desabordaje", "El avión con id: " + avion.getID()+" fue agregado a la cola de la estación de mantenimiento con id: " + ID);
                 avionesEnEspera.encolarElemento(avion);
                 cuadro.actualizarElementos();
                 avion.contactarEstacionMantenimiento(this);
@@ -76,7 +78,7 @@ public class EstacionMantenimiento extends InstalacionConEspera {
         } catch (Exception e) {
         }
     }
-    
+
     public void siguienteEnCola() throws EstructuraException {
         try {
             avionActivo = avionesEnEspera.desencolar();
@@ -88,12 +90,14 @@ public class EstacionMantenimiento extends InstalacionConEspera {
     }
 
     public void terminarMantenimiento() {
-           JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " a terminado su mantenimiento, sera enviado a zona de despegue");
-           motor.enviarAvionADespegue(avionActivo);
-           try {
+        JOptionPane.showMessageDialog(null, "El avion con id: " + avionActivo.getID() + " ha terminado su mantenimiento, sera enviado a zona de despegue");
+        motor.nuevoLog("Estación mantenimiento", "El avión con id: " + avionActivo.getID()+" ha terminado su mantenimiento, sera enviado a zona de despegue");
+
+        motor.getAeropuerto().enviarAvionADespegue(avionActivo);
+        try {
             siguienteEnCola();
         } catch (EstructuraException e) {
-            System.out.println("Ya no hay aviones en cola");
+        
             avionActivo = null;
             cuadro.actualizarElementos();
         }

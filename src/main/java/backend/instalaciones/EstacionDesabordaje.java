@@ -49,6 +49,7 @@ public class EstacionDesabordaje extends InstalacionConEspera {
     }
 
     public void crearHilo() {
+        motor.nuevoLog("Estación desabordaje", "El avión con id: " + avionActivo.getID()+" será desabordado en la estación de control con id " + ID);
         pasajerosDesabordados = avionActivo.getCantidadPasejeros();
         HiloEstacionDesabordaje hilo = new HiloEstacionDesabordaje(this);
         hilo.start();
@@ -62,6 +63,7 @@ public class EstacionDesabordaje extends InstalacionConEspera {
                 crearHilo();
             } else if (!avionesEnEspera.esLlena()) {
                 avionesEnEspera.encolarElemento(avion);
+                motor.nuevoLog("Estación desabordaje", "El avión con id: " + avion.getID()+" se agregó a la cola de la estación de desabordaje con id: " + ID);
                 cuadro.actualizarElementos();
                 avion.contactarEstacionDesabordaje(this);
             }
@@ -90,12 +92,13 @@ public class EstacionDesabordaje extends InstalacionConEspera {
             try {
                 siguienteEnCola();
             } catch (EstructuraException e) {
-                System.out.println("Ya no hay aviones en cola");
+  
                 avionActivo = null;
                 cuadro.actualizarElementos();
             }
         } else {
             JOptionPane.showMessageDialog(null, "No hay espacio en ninguna estación de mantenimiento, cuando se desocupe alguna el avión con id: " + avionActivo.getID() + " será enviado hacia allá.");
+            motor.nuevoLog("Avion", "El avión con id: " + avionActivo.getID()+" esperará en la estación de desabordaje con id: " + ID + " mientras se libera una estación de mantenimiento");
         }
 
     }

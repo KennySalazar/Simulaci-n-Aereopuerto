@@ -27,7 +27,7 @@ public class HiloPistaAterrizaje extends Thread{
                 pista.mostrarTiempoAterrizaje();
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                System.out.println("hilo interrumpido");
+              
             }
             pista.setTiempoActual(pista.getTiempoActual() - 1);
         }

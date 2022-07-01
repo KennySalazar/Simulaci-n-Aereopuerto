@@ -129,4 +129,12 @@ public class AvionCuadro extends Cuadro implements Posicionable {
         this.avion = null;
     }
 
+
+    public Avion getAvion() {
+        return avion;
+    }
+
+    public void setAvion(Avion avion) {
+        this.avion = avion;
+    }
 }

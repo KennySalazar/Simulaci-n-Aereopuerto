@@ -59,6 +59,7 @@ public class EstacionControl extends Instalacion {
             armarTexto(avionesContactados.obtenerLongitud());
             cuadro.actualizarElementos();
             motor.actualizarCombobox();
+            motor.nuevoLog("Estación control", "El avion con id " + avion.getID() +" contactó con la estación de control con id: " + ID);
         } else {
             throw new Exception();
         }
@@ -69,8 +70,9 @@ public class EstacionControl extends Instalacion {
             avionesContactados.borrarElemento(avion);
             cuadro.actualizarElementos();
             motor.actualizarCombobox();
+            motor.nuevoLog("Estación control", "La estación de control se desvinculó del avión con id: " + avion.getID() );
         } catch (EstructuraException e) {
-            e.printStackTrace();
+          
         }
 
     }

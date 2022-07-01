@@ -8,9 +8,12 @@ import backend.estructuras.lista.Cola;
 import backend.estructuras.lista.Lista;
 import backend.estructuras.lista.EstructuraException;
 import backend.instalaciones.*;
+import ui.Aeropuerto;
 import ui.Principal;
 
 import javax.swing.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * @author Kenny
@@ -26,6 +29,8 @@ public class MotorSimulacion {
     private Cola<EstacionDesabordaje> estacionEnEspera;
     private Lista<Log> logs;
     private Principal principal;
+    private String path;
+    private Aeropuerto aeropuerto;
 
     public MotorSimulacion(Lista<Avion> aviones, Lista<EstacionControl> estacionesControl, Lista<PistaAterrizaje> pistasAterrizaje, Lista<EstacionDesabordaje> estacionesDesabordaje, Lista<EstacionMantenimiento> estacionesMantenimiento, Principal principal) {
         this.aviones = aviones;
@@ -34,16 +39,51 @@ public class MotorSimulacion {
         this.estacionesDesabordaje = estacionesDesabordaje;
         this.estacionesMantenimiento = estacionesMantenimiento;
         this.principal = principal;
+        this.logs = new Lista<>();
     }
 
     public void iniciarSimulacion() {
         for (int i = 0; i < aviones.obtenerLongitud(); i++) {
             try {
                 aviones.obtenerElemento(i).setMotor(this);
-                aviones.obtenerElemento(i).start();
+                aviones.obtenerElemento(i).crearHiloAvionVolando();
             } catch (Exception e) {
             }
 
+        }
+    }
+
+    public void conseguirPath() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecciona donde guardar el archivo de logs");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int respuesta = fileChooser.showOpenDialog(null);
+        if (respuesta == 0) {
+            path = fileChooser.getSelectedFile().getAbsolutePath();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pudo cargar correctamente el archivo");
+        }
+    }
+
+    public void nuevoLog(String titulo, String contenido) {
+        Log log = new Log(titulo, contenido);
+        logs.agregar(log);
+        actualizarHtml();
+    }
+
+    public void actualizarHtml() {
+        try {
+            FileWriter htmlEscribidor = new FileWriter(path + "/logs.html");
+            htmlEscribidor.write("<h1>Logs de la simulación de aviones</h1>");
+            htmlEscribidor.write("<ul>");
+            for (int i = 0; i < logs.obtenerLongitud(); i++) {
+                Log log = logs.obtenerElemento(i);
+                htmlEscribidor.write("<li><strong>"+log.getTitulo()+"</strong>   "+log.getContenido()+"</li>");
+            }
+            htmlEscribidor.write("</ul>");
+            htmlEscribidor.close();
+        } catch (IOException e) {
+        } catch (EstructuraException e) {
         }
     }
 
@@ -107,15 +147,11 @@ public class MotorSimulacion {
                     ;
                 }
             } catch (EstructuraException e) {
-                e.printStackTrace();
+            
             }
         }
 
         return -1;
-
-    }
-
-    public void autorizarAterrizaje(Avion avion, PistaAterrizaje pista) {
 
     }
 
@@ -176,7 +212,17 @@ public class MotorSimulacion {
         this.estacionEnEspera = new Cola<>(estacionesDesabordaje.obtenerLongitud());
     }
 
-    public void enviarAvionADespegue(Avion avion) {
-    
+    public void setAeropuerto(Aeropuerto aeropuerto) {
+        this.aeropuerto = aeropuerto;
+    }
+
+    public Aeropuerto getAeropuerto() {
+        return aeropuerto;
+    }
+
+    public void enviarAVuelo(Avion avion) {
+        avion.borrarCuadro();
+        avion.setEstado("Volando...");
+        aeropuerto.enviarAVuelo(avion);
     }
 }

@@ -18,7 +18,10 @@ public class AvionDespegueCuadro extends AvionCuadro {
     public void posicionarElementos(int ancho, int alto) {
         super.posicionarElementos(ancho, alto);
         setBackground(new Color(167, 245, 108));
+        galonesCombustible.setForeground(Color.black);
     }
 
-    
+
+    public void desplegarAvion() {
+    }
 }

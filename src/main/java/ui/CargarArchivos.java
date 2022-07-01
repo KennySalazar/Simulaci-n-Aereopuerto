@@ -54,7 +54,6 @@ public class CargarArchivos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         aceptarJButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,13 +107,6 @@ public class CargarArchivos extends javax.swing.JFrame {
 
         jLabel6.setText("Estación de Mantenimiento");
 
-        jButton1.setText("cargar todos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         aceptarJButton.setText("Aceptar");
         aceptarJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,72 +117,67 @@ public class CargarArchivos extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGap(48, 48, 48)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(jLabel2)
-                                                                        .addComponent(jLabel3)
-                                                                        .addComponent(jLabel4)
-                                                                        .addComponent(jLabel5))
-                                                                .addGap(29, 29, 29))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addContainerGap()
-                                                                .addComponent(jLabel6)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                .addComponent(jButtonEstacionControl)
-                                                                .addComponent(jButtonAvion)
-                                                                .addComponent(jButtonAterrizaje))
-                                                        .addComponent(jButtonDesabordaje)
-                                                        .addComponent(jButtonMantenimiento))
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(134, 134, 134)
-                                                .addComponent(jLabel1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                                                .addComponent(jButton1)))
-                                .addContainerGap())
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(152, 152, 152)
-                                .addComponent(aceptarJButton)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButtonEstacionControl)
+                                .addComponent(jButtonAvion)
+                                .addComponent(jButtonAterrizaje))
+                            .addComponent(jButtonDesabordaje)
+                            .addComponent(jButtonMantenimiento)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addComponent(jLabel1)))
+                .addContainerGap(74, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(aceptarJButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jButton1))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jButtonAvion))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButtonEstacionControl)
-                                        .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jButtonAterrizaje))
-                                .addGap(12, 12, 12)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButtonDesabordaje)
-                                        .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jButtonMantenimiento))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(aceptarJButton)
-                                .addGap(12, 12, 12))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jButtonAvion))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEstacionControl)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButtonAterrizaje))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDesabordaje)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jButtonMantenimiento))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(aceptarJButton)
+                .addGap(12, 12, 12))
         );
 
         pack();
@@ -245,52 +232,6 @@ public class CargarArchivos extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButtonMantenimientoActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Lista<String> lineas = cargarDatos("./aviones.csv");
-
-        for (int i = 0; i < lineas.obtenerLongitud(); i++) {
-            try {
-                String[] separador = lineas.obtenerElemento(i).split(",");
-                Avion avion = new Avion(Integer.parseInt(separador[0]), separador[1], Integer.parseInt(separador[2]));
-                motor.getAviones().agregar(avion);
-
-            } catch (EstructuraException ex) {
-
-            }
-        }
-        
-        Lista<String> lineasP = cargarDatos("./pistas.csv");
-        PistaAterrizaje pistaA = new PistaAterrizaje(0, 0);
-        pistaA.crearLista(lineasP, motor.getPistasAterrizaje());
-        if (lineasP.obtenerLongitud() > 0) {
-            JOptionPane.showMessageDialog(this, "Se ha cargado correctamente el archivo");
-        }
-        
-          Lista<String> lineasE = cargarDatos("./estaciones_control.csv");
-          
-        EstacionControl estacionControl = new EstacionControl(0, 0);
-        estacionControl.crearLista(lineasE, motor.getEstacionesControl());
-        if (lineasE.obtenerLongitud() > 0) {
-            JOptionPane.showMessageDialog(this, "Se ha cargado correctamente el archivo");
-        }
-        
-           Lista<String> lineasD = cargarDatos("./estaciones_desabordaje.csv");
-        EstacionDesabordaje estacionDesabordaje = new EstacionDesabordaje(0, 0);
-        estacionDesabordaje.crearLista(lineasD, motor.getEstacionesDesabordaje());
-        if (lineasD.obtenerLongitud() > 0) {
-            JOptionPane.showMessageDialog(this, "Se ha cargado correctamente el archivo");
-        }
-        
-          Lista<String> lineasM = cargarDatos("./estaciones_mantenimiento.csv");
-        EstacionMantenimiento estacionMan = new EstacionMantenimiento(0, 0);
-        estacionMan.crearLista(lineasM, motor.getEstacionesMantenimiento());
-        if (lineasM.obtenerLongitud() > 0) {
-            JOptionPane.showMessageDialog(this, "Se ha cargado correctamente el archivo");
-        }
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void aceptarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarJButtonActionPerformed
         if (esValidoCargaDatos()) {
@@ -372,7 +313,6 @@ public class CargarArchivos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptarJButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAterrizaje;
     private javax.swing.JButton jButtonAvion;
     private javax.swing.JButton jButtonDesabordaje;

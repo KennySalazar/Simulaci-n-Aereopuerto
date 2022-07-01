@@ -47,6 +47,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jComboBoxPistaA = new javax.swing.JComboBox<>();
         jButtonAterrizar = new javax.swing.JButton();
+        jButtonDespegar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -118,6 +119,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButtonDespegar.setText("Autorizar despegue del avión");
+        jButtonDespegar.setEnabled(false);
+        jButtonDespegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDespegarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -134,7 +143,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jComboBoxAvionesContactados, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(jButtonAterrizar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonAterrizar)
+                    .addComponent(jButtonDespegar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -152,8 +163,11 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBoxPistaA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jButtonAterrizar))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonAterrizar)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonDespegar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Representación de colores en cuadros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Black", 2, 12))); // NOI18N
@@ -296,13 +310,49 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxEstacionCActionPerformed
 
     private void jComboBoxAvionesContactadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAvionesContactadosActionPerformed
-
+        habilitarBotones();
     }//GEN-LAST:event_jComboBoxAvionesContactadosActionPerformed
 
+    public void habilitarBotones() {
+        try{
+            int selectedIndexEstacion = jComboBoxEstacionC.getSelectedIndex();
+            EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndexEstacion);
+            int selectedIndexAvion = jComboBoxAvionesContactados.getSelectedIndex();
+            Avion avion = estacion.getAvionesContactados().obtenerElemento(selectedIndexAvion);
+            if(avion.getEstado().equals("Esperando despegue...")){
+                jButtonDespegar.setEnabled(true);
+                jButtonAterrizar.setEnabled(false);
+            }else {
+                jButtonDespegar.setEnabled(false);
+                jButtonAterrizar.setEnabled(true);
+            }
+        } catch (EstructuraException ex) {
+        }
+    }
+    
     private void jButtonAterrizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAterrizarActionPerformed
         autorizarAterrizaje();
     }//GEN-LAST:event_jButtonAterrizarActionPerformed
 
+    private void jButtonDespegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDespegarActionPerformed
+        autorizarDespegue();
+    }//GEN-LAST:event_jButtonDespegarActionPerformed
+
+    public void autorizarDespegue() {
+        try {
+            int selectedIndexEstacion = jComboBoxEstacionC.getSelectedIndex();
+            EstacionControl estacion = motor.getEstacionesControl().obtenerElemento(selectedIndexEstacion);
+            int selectedIndexAvion = jComboBoxAvionesContactados.getSelectedIndex();
+            Avion avion = estacion.getAvionesContactados().obtenerElemento(selectedIndexAvion);
+
+            avion.comenzarDespegue();
+            estacion.eliminarAvion(avion);
+
+        } catch (EstructuraException ex) {
+            JOptionPane.showMessageDialog(this, "Esta estación aún no tiene aviones contactados");
+        }
+
+    }
 
     public void autorizarAterrizaje() {
         try {
@@ -326,14 +376,18 @@ public class Principal extends javax.swing.JFrame {
         configuracion.setVisible(true);
     }
 
+
+
     public void mostrarComboBox() {
         try {
             mostrarComboBoxInstalacion(jComboBoxEstacionC, motor.getEstacionesControl(), "A. Contactados: ");
             mostrarComboBoxInstalacion(jComboBoxPistaA, motor.getPistasAterrizaje(), "A. en Cola: ");
             mostrarAvionesSegunEstacionSeleccionada();
+            
+            habilitarBotones();
 
         } catch (Exception e) {
-            e.printStackTrace();
+           
         }
     }
 
@@ -342,6 +396,7 @@ public class Principal extends javax.swing.JFrame {
         jButtonAterrizar.setEnabled(true);
 
         aereopuerto = new Aeropuerto(motor);
+        motor.setAeropuerto(aereopuerto);
         aereopuerto.setBounds(0, 0, jPanelAereopuerto.getWidth(), jPanelAereopuerto.getHeight());
         jPanelAereopuerto.add(aereopuerto);
         aereopuerto.iniciarAereopuerto();
@@ -390,6 +445,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu JMenuAcciones;
     private javax.swing.JMenu JMenuConfig;
     private javax.swing.JButton jButtonAterrizar;
+    private javax.swing.JButton jButtonDespegar;
     private javax.swing.JComboBox<String> jComboBoxAvionesContactados;
     private javax.swing.JComboBox<String> jComboBoxEstacionC;
     private javax.swing.JComboBox<String> jComboBoxPistaA;

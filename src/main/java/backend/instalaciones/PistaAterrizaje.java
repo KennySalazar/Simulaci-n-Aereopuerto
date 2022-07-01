@@ -48,6 +48,7 @@ public class PistaAterrizaje extends InstalacionConEspera {
     }
 
     public void crearHilo() {
+        motor.nuevoLog("Pista aterrizaje", "El avión con id: " + avionActivo.getID()+" empezará a aterrizar en  la pista de aterrizaje co id " + ID);
         HiloPistaAterrizaje hilo = new HiloPistaAterrizaje(avionActivo, this);
         hilo.start();
     }
@@ -64,7 +65,7 @@ public class PistaAterrizaje extends InstalacionConEspera {
             try {
                 siguienteEnCola();
             } catch (EstructuraException e) {
-                System.out.println("Ya no hay aviones en cola");
+               
                 avionActivo = null;
                 cuadro.actualizarElementos();
             }
@@ -93,6 +94,7 @@ public class PistaAterrizaje extends InstalacionConEspera {
                 estacion.eliminarAvion(avion);
                 crearHilo();
             } else if (!avionesEnEspera.esLlena()) {
+                motor.nuevoLog("Pista aterrizaje", "El avión con id: " + avion.getID()+" fue agregado a la cola de la pista de aterrizaje con id: " + ID);
                 avionesEnEspera.encolarElemento(avion);
                 cuadro.actualizarElementos();
                 avion.contactarPista(this);
@@ -112,9 +114,9 @@ public class PistaAterrizaje extends InstalacionConEspera {
             avionesEnEspera.actualizarOrden(indice);
             cuadro.actualizarElementos();
             motor.actualizarCombobox();
-            System.out.println("explotado");
+    
         } catch (Exception e) {
-            e.printStackTrace();
+           
         }
     }
 
